@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_24_110002) do
+ActiveRecord::Schema.define(version: 2020_04_13_032425) do
+
+  create_table "authors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "books", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name", default: ""
@@ -22,6 +28,68 @@ ActiveRecord::Schema.define(version: 2020_03_24_110002) do
     t.string "path"
     t.string "remark"
     t.text "pre_content"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.text "content"
+    t.string "created_by", default: "佚名"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "phone_infos", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "mobile_number"
+    t.string "mobile_area"
+    t.string "mobile_type"
+    t.string "area_code"
+    t.string "province_name"
+    t.string "province_code"
+    t.string "city_name"
+    t.string "city_code"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["mobile_number"], name: "index_phone_infos_on_mobile_number"
+  end
+
+  create_table "yys_atlas", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "nick_name"
+    t.text "sids"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "yys_regions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "key"
+    t.string "name"
+    t.string "mode"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "yys_shi_shens", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "sid"
+    t.string "name"
+    t.string "name_sp", comment: "sp皮肤name"
+    t.string "kind", default: "SSR", comment: "SSR或SP"
+    t.string "form", default: "ORIGIN", comment: "原生（ORIGIN）/联动（LINKAGE），联动式神不参与抽卡游戏"
+    t.boolean "cartoon", default: false, comment: "是否有召唤动画"
+    t.boolean "cartoon_sp", default: false, comment: "是否有sp召唤动画"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "yys_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "ip"
+    t.string "name"
+    t.integer "seq", default: 1
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

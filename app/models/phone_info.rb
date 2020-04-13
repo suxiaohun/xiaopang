@@ -1,0 +1,2 @@
+class PhoneInfo < ApplicationRecord
+end

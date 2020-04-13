@@ -1,0 +1,9 @@
+<% books.each do |book| %>
+  <p><%= book.name %></p>
+<% end %>
+<%= form_tag(books_es_search_path, method: 'get', remote: true) do %>
+  <%= text_field_tag :name  %>
+  <%= submit_tag '提交'  %>
+  <%= paginate books, remote: true %>
+<% end %>
+

@@ -1,0 +1,2 @@
+class YysUser < ApplicationRecord
+end

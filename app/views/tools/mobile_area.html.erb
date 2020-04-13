@@ -1,0 +1,159 @@
+<style type="text/css">
+  body {
+    height: auto;
+  }
+
+  .mod-panel {
+    width: 100%;
+    max-width: 960px;
+    margin: 100px auto;
+    _width: 960px;
+  }
+
+  .mod-panel .hd {
+    padding-top: 15px;
+    margin-bottom: 10px;
+    line-height: 30px;
+    text-align: center;
+  }
+
+  .mod-panel .hd h1 {
+    font-weight: normal;
+    font-size: 24px;
+    color: #212121;
+  }
+
+  .mod-panel .hd p {
+    font-size: 16px;
+    color: #bdbdbd;
+  }
+
+  .mod-panel .bd {
+    width: 100%;
+    max-width: 750px;
+    margin: 0 auto;
+    _width: 750px;
+  }
+
+  .mod-panel .search {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto 40px;
+    *zoom: 1;
+    _width: 480px;
+  }
+
+  .mod-panel .search .input-text {
+    display: inline-block;
+    width: 336px;
+    height: 42px;
+    border: 1px solid #ccc;
+    padding: 10px 0 10px 8px;
+    line-height: 42px;
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  .mod-panel .search .input-submit {
+    display: inline-block;
+    position: absolute;
+    /*right: 0;*/
+    /*bottom: 0;*/
+    z-index: 9;
+    height: 42px;
+    width: 108px;
+    background: #4bae4f;
+    border: medium none;
+    line-height: 42px;
+    vertical-align: middle;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .mod-panel table {
+    width: 100%;
+    background: #fff;
+  }
+
+  .mod-panel th, .mod-panel td {
+    padding: 9px 15px;
+    border: 1px solid #ccc;
+    line-height: 24px;
+    white-space: nowrap;
+    text-align: center;
+    *position: relative;
+    *zoom: 1;
+  }
+
+  .mod-panel th {
+    background: #f5f5f5;
+    font-size: 16px;
+    color: #212121;
+  }
+
+  .mod-panel .bd a {
+    float: right;
+    display: inline-block;
+    margin-left: 4px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    line-height: 24px;
+    color: #4bae4f;
+    *position: absolute;
+    *top: 8px;
+    *right: 15px;
+  }
+
+  .mod-panel .ft {
+    padding-top: 32px;
+  }
+
+  .mod-panel .ft p {
+    margin-bottom: 18px;
+    line-height: 25px;
+    text-align: center;
+  }
+
+  .mod-panel .ft a {
+    display: inline-block;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+  }
+</style>
+<div class="mod-panel">
+  <div class="hd">
+    <h1>手机号码所在地区查询</h1>
+    <p>输入手机号即可知道用户所在地区</p>
+  </div>
+  <div class="bd">
+    <div class="search">
+      <%= form_tag('/get_mobile_area', method: :get, remote: true) do %>
+        <input class="input-text" type="number" id="mobile-number" name="mobile_number" required="required" minlength="7" maxlength="11" size="11" placeholder="请输入手机号码（段）">
+        <input class="input-submit" type="submit" value="查询" onclick="$('#mobile-area').html($('#spinner-mobile-area').html());">
+      <% end %>
+    </div>
+    <div class="search" id="mobile-area" style="min-width: 100px;min-height: 30px;color: blue;font-size: 24px;line-height: 30px;"></div>
+
+  </div>
+  <div class="ft">
+    <p>如发现手机号码所在地数据不对，请按此留言，谢谢
+      <button onclick="$('#comment-area').toggle();$('#comment-note').html('');">留言</button>
+    <p id="comment-note" style="color: blue;">
+
+    <div id="comment-area" style="display: none;text-align: center">
+      <%= form_tag("/comment_save", method: 'post', remote: true) do %>
+        <%= text_area_tag 'comment[content]', '', :placeholder => '给楼主留言', :rows => 6, :cols => 45 %>
+        <%= submit_tag '提交' %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div id="spinner-mobile-area" style="display: none;">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>

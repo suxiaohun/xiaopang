@@ -1,0 +1,2 @@
+class YysRegion < ApplicationRecord
+end

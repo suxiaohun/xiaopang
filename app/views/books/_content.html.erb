@@ -1,0 +1,30 @@
+<div id="article-related">
+
+  <div class="article-neighbour">
+    <div class="article-prev-next">
+      <%= link_to 'Next Page', {:action => 'next', :next_pos => data[:next_pos], :id => data[:id]}, remote: true %>
+    </div>
+
+    <div class="article-prev-next">
+      <%= link_to 'Next Page', {:action => 'next', :next_pos => data[:next_pos], :id => data[:id]}, remote: true %>
+    </div>
+
+    <%= hidden_field_tag :curr_pos, data[:curr_pos] %>
+  </div>
+</div>
+<ul>
+  <% data[:lines].each do |line| %>
+    <li><%= line %></li>
+  <% end %>
+</ul>
+<div id="article-related">
+  <div class="article-neighbour">
+    <div class="article-prev-next">
+      <%= link_to 'Next Page', {:action => 'next', :next_pos => data[:next_pos], :id => data[:id]}, remote: true %>
+    </div>
+    <div class="article-prev-next">
+      <%= link_to 'Next Page', {:action => 'next', :next_pos => data[:next_pos], :id => data[:id]}, remote: true %>
+    </div>
+
+  </div>
+</div>

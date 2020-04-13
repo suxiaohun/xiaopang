@@ -1,0 +1,24 @@
+<hr>
+<table class="stable">
+
+  <% unless summon.each do |k, v| %>
+    <tr>
+      <td>
+        第<%= k %>抽
+      </td>
+      <td style="text-indent: 10px;"><%= raw(v[:name]) %></td>
+    </tr>
+  <% end.present? %>
+    <tr>
+      <td colspan="2" style="color: red;"><%= '大人，非洲欢迎你。' %></td>
+    </tr>
+  <% end %>
+</table>
+
+<% if @msg.present? %>
+  <hr>
+  <% @msg.each do |k, v| %>
+
+    <div style="font-size: 18px;color: #35a2ff;font-weight: bold;"><%= v %></div>
+  <% end %>
+<% end %>

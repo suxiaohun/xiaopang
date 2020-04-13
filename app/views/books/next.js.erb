@@ -1,0 +1,4 @@
+$('#book-section').html("<%= j render(:partial => 'content', :locals => {:data => @data}) %>");
+$("#range").val("<%= @data[:rate] %>");
+$("#rangeShow").html("<%= @data[:rate] %>%");
+$("body").scrollTop(0);

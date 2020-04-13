@@ -24,6 +24,8 @@
 /config/master.key
 
 /public/packs
+/public/txt
+/public/books
 /public/packs-test
 /node_modules
 /yarn-error.log
@@ -31,3 +33,9 @@ yarn-debug.log*
 .yarn-integrity
 .idea
 .generators
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity

@@ -1,0 +1,65 @@
+<style>
+  .leftBar {
+    float: left;
+  }
+
+  .rightBar {
+    float: left;
+  }
+  .operateLR {
+    float: left;
+    width: 136px;
+    text-align: center;
+    margin: 30px 5px 0 5px;
+  }
+  #mainContent textarea,#mainContent input[type='text'] { /*  å®šä¹‰textareaå’Œinputè¾¹æ¡†æ ·å¼  */
+    border: 1px solid #ccc;
+  }
+  .leftBar textarea,.rightBar textarea {
+    width: 410px;
+    height: 500px;
+  }
+</style>
+<div class="leftBar">
+  <div class="title">Native:</div>
+  <textarea name='cipher' id='a_source'>这是一个例子,this is a example</textarea>
+</div>
+
+<div class="operateLR">
+  <div class="OptDetail Button">
+    <button class="btn btn-primary" onclick="javascript:Native2Unicode();" style="margin:0 0 10px 0;"> Unicode >> <i class="icon-chevron-right icon-white"></i></button>
+    <button class="btn btn-primary"  onclick="javascript:Unicode2Native();"><i class="icon-chevron-left icon-white"></i> << Native </button>
+  </div>
+</div>
+
+<div class="rightBar">
+  <div class="title">Unicode:</div>
+  <textarea name='message' id='u_source' class='text_source'></textarea>
+</div>
+<script>
+    //Native 转换 Unicode
+    function Native2Unicode() {
+
+        var a_s=$("#a_source").val();
+        if ('' == a_s) {
+            alert('请输入Native字符串');
+            return;
+        }
+        $("#u_source").val('');
+        for (var i=0; i<$("#a_source").val().length; i++)
+            $("#u_source").val($("#u_source").val() + '&#' + a_s.charCodeAt(i) + ';');
+    }
+
+    //Unicode 转换 Native
+    function Unicode2Native() {
+        var code = $("#u_source").val().match(/&#(\d+);/g);
+        if (code == null) {
+            alert('请输入正确的Unicode代码！'); $("#u_source").focus();
+            return;
+        }
+        $("#a_source").val('');
+        for (var i=0; i<code.length; i++)
+            $("#a_source").val($("#a_source").val() + String.fromCharCode(code[i].replace(/[&#;]/g, '')));
+    }
+
+</script>

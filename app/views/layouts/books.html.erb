@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <title>qianyu</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'books', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+  <nav id="main-menu">
+    <ul>
+      <li>
+        <%= link_to '首页', books_path %>
+      </li>
+      <% category_list.each do |x| %>
+        <li>
+          <%= link_to x.name, {action: 'category', :id => x.id}, remote: true %>
+        </li>
+      <% end %>
+<!--      <li>-->
+        <%#= link_to '留言', {:action => 'comments'}, remote: true %>
+<!--      </li>-->
+    </ul>
+  </nav>
+    <%= yield %>
+  </body>
+</html>

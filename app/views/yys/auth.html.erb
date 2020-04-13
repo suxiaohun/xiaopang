@@ -1,0 +1,64 @@
+<style type="text/css">
+
+  select {
+    height: 36px;
+    min-width: 170px;
+    text-indent: 4px;
+    margin-bottom: 15px;
+  }
+
+  .text_tag {
+    /*display: block;*/
+    width: 50%;
+    height: 54px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  }
+
+</style>
+
+
+
+<div style="padding-top: 200px;text-align: center;">
+<!--  <span class="badge badge-danger" style="padding: 10px 10px">友情提示：</span>-->
+<!--  如果同一ip多次登录，会清除前面的数据。-->
+<!--  <hr>-->
+  <%= form_tag('/yys/auth', method: :post) do %>
+    选择游戏区服：
+    <%= hidden_field_tag :redirect_controller, params[:redirect_controller] %>
+    <%= hidden_field_tag :redirect_action, params[:redirect_action] %>
+    <%= select_tag :region, options_for_select(region_drop_list) %><br>
+    <%= text_field_tag 'name', nil, required: true, :placeholder => '请输入您的游戏角色昵称', :class => 'text_tag', required: true %>
+    <br>
+    <br>
+    <div style="text-align: center">
+      <%= submit_tag '提交', :class => 'btn btn-primary' %>
+    </div>
+
+  <% end %>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

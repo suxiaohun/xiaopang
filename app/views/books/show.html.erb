@@ -1,4 +1,51 @@
-<p id="notice"><%= notice %></p>
+<!--<div style="text-align: center;">-->
+<%#= link_to 'download', {:action => 'download', :id => @book.id}, :class => 'post-card-download' %>
+<!--</div>-->
+<%= form_tag('/books/goto', method: :get, remote: true) do %>
+  <%= hidden_field_tag :id, @book.id %>
+  <%= hidden_field_tag :process %>
+  <%= submit_tag "processForm", id: 'processForm', style: 'display:none' %>
 
-<%= link_to 'Edit', edit_book_path(@book) %> |
-<%= link_to 'Back', books_path %>
+<% end %>
+
+<%= form_tag('/books/page_size', method: :get, remote: true) do %>
+  <%= hidden_field_tag :id, @book.id %>
+  <%= hidden_field_tag :page_size %>
+  <%= hidden_field_tag :current_pos, 0 %>
+  <%= submit_tag "pagesizeForm", id: 'pagesizeForm', style: 'display:none' %>
+
+<% end %>
+
+<main id="site-main">
+  <section>
+    <article style="text-align: center;">
+      <h1> <%= @book.display_name %><span style="color:#ab8248"> #<%= @book.tag %># </span></h1>
+      <p>
+        <input type="range" min="0" max="100" value="0" style="line-height:50px;align-self: center;" onchange="change_process()" id="range"/>
+        <span id="rangeShow" style="line-height: 50px;display: inline-block;">0%</span>
+        <%= select_tag "credit_card", options_for_select([[10, 10], [20, 20], [50, 50]], cookies[:page_size]), onchange: "change_pagesize()" %>
+      </p>
+    </article>
+    <article>
+      <section class="post-content markdown-body" id="book-section">
+        <%= render partial: 'content', locals: {data: @data} %>
+      </section>
+    </article>
+  </section>
+</main>
+
+<script type="text/javascript">
+    function change_process() {
+        var process = $("#range").val();
+        document.getElementById('rangeShow').innerHTML = process + '%';
+        $("#process").val(process);
+        $("#page_size").val($("#credit_card").val());
+        $("#processForm").click();
+    }
+
+    function change_pagesize() {
+        $("#page_size").val($("#credit_card").val());
+        $("#current_pos").val($("#curr_pos").val());
+        $("#pagesizeForm").click();
+    }
+</script>

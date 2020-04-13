@@ -1,0 +1,41 @@
+$('#result').html("<%= j render(:partial => 'yys/summon', :locals => {:summon => @result}) %>");
+$('#rate_div').html("<%= j render(:partial => 'yys/rate', :locals => {:rate => @summon_count}) %>");
+
+
+var result = <%= @result.to_json.html_safe %>;
+var arr = Object.keys(result)
+var cartoon_arr = [];
+
+Object.keys(result).forEach(function (key, index) {
+//    console.log(index)
+    if (result[key]["cartoon"] == true) {
+        cartoon_arr.push(result[key])
+    }
+})
+
+console.log(cartoon_arr.length)
+
+var show_cartoon = <%= @show_cartoon %>;
+var client_height = document.body.clientHeight;
+if (show_cartoon == true) {
+    console.log("动画版");
+    if (cartoon_arr.length > 0) {
+        $("#yys").prepend("<div id='video_div' style='width: 100%;height: " + client_height + ";position: absolute;z-index: 900;background: black;'></div>");
+        var path = cartoon_arr.shift()["video_path"];
+        console.log(path);
+        $("#video_div").append("<video onended=\"play_video(this);\" height=\"90%\" width=\"100%\" muted=\"muted\" autoplay=\"autoplay\" src=\"" + path + "\"></video>")
+    }
+} else {
+    console.log("文字版")
+}
+
+function play_video(ve) {
+    $(ve).remove();
+    if (cartoon_arr.length > 0) {
+        var path = cartoon_arr.shift()["video_path"];
+        console.log(path);
+        $("#video_div").append("<video onended=\"play_video(this);\" height=\"90%\" width=\"100%\" muted=\"muted\" autoplay=\"autoplay\" src=\"" + path + "\"></video>")
+    } else {
+        $("#video_div").remove();
+    }
+}

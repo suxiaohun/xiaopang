@@ -1,12 +1,17 @@
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.13.0"
 
-set :rvm1_map_bins, %w{rake gem bundle ruby}
+#set :rvm1_map_bins, %w{rake gem bundle ruby}
+
+
+
 set :application, "xiaopang"
 set :repo_url, "git@github.com:suxiaohun/xiaopang.git"
 
 set :unicorn_pid, -> { File.join("tmp", "pids", "unicorn.pid") }
 set :unicorn_config_path, -> { File.join(current_path, "config", "unicorn.rb") }
+
+set :bundle_path, -> { "/home/crystal/.rvm/gems/ruby-2.6.5/bin/bundle" }
 
 
 # Default branch is :master

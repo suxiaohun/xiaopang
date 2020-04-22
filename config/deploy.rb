@@ -1,7 +1,6 @@
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.13.0"
 
-set :rvm1_map_bins, %w{rake gem bundle ruby}
 set :application, "xiaopang"
 set :repo_url, "git@github.com:suxiaohun/xiaopang.git"
 

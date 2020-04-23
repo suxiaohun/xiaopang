@@ -283,6 +283,7 @@ DEPENDENCIES
   elasticsearch
   elasticsearch-model
   elasticsearch-rails
+  execjs
   jbuilder (~> 2.7)
   kaminari
   listen (>= 3.0.5, < 3.2)

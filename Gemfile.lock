@@ -70,7 +70,6 @@ GEM
       popper_js (>= 1.14.3, < 2)
       sassc-rails (>= 2.0.0)
     builder (3.2.4)
-    byebug (11.1.2)
     capistrano (3.13.0)
       airbrussh (>= 1.0.0)
       i18n
@@ -273,7 +272,6 @@ DEPENDENCIES
   bcrypt_pbkdf (>= 1.0, < 2.0)
   bootsnap (>= 1.4.2)
   bootstrap
-  byebug
   capistrano (~> 3.6)
   capistrano-bundler (~> 1.6)
   capistrano-rvm

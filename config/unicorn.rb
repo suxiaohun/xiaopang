@@ -6,8 +6,6 @@ module Rails
   end
 end
 
-ENV['RAILS_ENV'] = "production"
-
 listen 3000
 
 worker_processes 8

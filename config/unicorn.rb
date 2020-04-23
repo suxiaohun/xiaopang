@@ -6,9 +6,7 @@ module Rails
   end
 end
 
-
-rails_env = "production"
-
+ENV['RAILS_ENV'] = "production"
 
 listen 3000
 

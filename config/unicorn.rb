@@ -9,7 +9,7 @@ end
 
 listen 3000
 
-worker_processes 4
+worker_processes 8
 
 pid "#{Rails.root}/tmp/pids/unicorn.pid"
 

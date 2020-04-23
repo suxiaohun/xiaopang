@@ -142,6 +142,23 @@ def pid_oldbin
 end
 
 
+def puts_front(str)
+  puts
+  puts '+----------------------------------------------------------------------------------------+'
+  puts '|                                                                                        |'
+  puts '|                                                                                        |'
+  puts "\e[48;5;34m\033[5m #{str} \e[0m"
+
+end
+
+def puts_end
+  puts '|                                                                                        |'
+  puts '|                                                                                        |'
+  puts '+----------------------------------------------------------------------------------------+'
+
+  puts
+end
+
 
 after 'deploy:publishing', 'xiaosu:link_books'
 deploy_option = fetch(:deploy_option)

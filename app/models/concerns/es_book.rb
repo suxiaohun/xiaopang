@@ -6,7 +6,8 @@ module EsBook
 
     after_commit :update_es_index_async, on: [:create, :update]
     # 注意：destroy之后，对象仅存在于内存中，无法再次获取（不太适用于异步调用）
-    after_commit :destroy_index, on: [:destroy]
+    # es数据不存在，task会报错，先暂时注释掉
+    #after_commit :destroy_index, on: [:destroy]
 
 
     settings index: {number_of_shards: 1} do

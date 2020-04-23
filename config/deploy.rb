@@ -13,6 +13,7 @@ set :unicorn_config_path, -> { File.join(current_path, "config", "unicorn.rb") }
 set :unicorn_roles, -> { :app }
 set :unicorn_options, -> { "" }
 set :unicorn_restart_sleep_time, 3
+ask :deploy_option, 'simple'
 
 
 set :rvm_ruby_version, '2.6.5' # Defaults to: 'default'
@@ -49,6 +50,45 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 
 # Uncomment the following to require manually verifying the host key before first deploy.
 # set :ssh_options, verify_host_key: :secure
+
+namespace :xiaosu do
+  desc 'link books directory'
+  task :link_books do
+    on roles(:all) do
+      within release_path do
+        puts_front "start link books..."
+        execute :ln, '-s', "/home/crystal/books public/"
+        puts_end
+      end
+    end
+  end
+
+
+  desc 'init books'
+  task :init_books do
+    on roles(:all) do
+      within release_path do
+        puts_front "start init books..."
+        execute :rake, 'book:init', "RAILS_ENV=production"
+        puts_end
+      end
+    end
+  end
+
+  desc 'init yys'
+  task :init_yys do
+    on roles(:all) do
+      within release_path do
+        puts_front "init yys data..."
+        execute :rake, 'yys:init', 'RAILS_ENV=production'
+        puts_end
+      end
+    end
+  end
+
+
+end
+
 
 namespace :unicorn do
   desc "Start Unicorn"
@@ -102,7 +142,17 @@ def pid_oldbin
 end
 
 
+
+after 'deploy:publishing', 'xiaosu:link_books'
+deploy_option = fetch(:deploy_option)
+unless deploy_option == 'simple'
+  after 'deploy:publishing', 'xiaosu:init_books'
+  after 'deploy:publishing', 'xiaosu:init_yys'
+end
+
 after 'deploy:publishing', 'deploy:restart'
+
+
 namespace :deploy do
   task :restart do
     invoke 'unicorn:legacy_restart'

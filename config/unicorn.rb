@@ -10,3 +10,10 @@ end
 listen 3000
 
 worker_processes 4
+
+pid "#{Rails.root}/tmp/pids/unicorn.pid"
+
+stderr_path "#{Rails.root}/log/unicorn_err.log"
+stdout_path "#{Rails.root}/log/unicorn_out.log"
+
+

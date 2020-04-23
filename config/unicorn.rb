@@ -12,6 +12,8 @@ listen 3000
 
 worker_processes 8
 
+preload_app true
+
 pid "#{Rails.root}/tmp/pids/unicorn.pid"
 
 stderr_path "#{Rails.root}/log/unicorn_err.log"

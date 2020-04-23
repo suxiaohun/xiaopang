@@ -4,14 +4,13 @@ lock "~> 3.13.0"
 #set :rvm1_map_bins, %w{rake gem bundle ruby}
 
 
-
 set :application, "xiaopang"
 set :repo_url, "git@github.com:suxiaohun/xiaopang.git"
 
-set :unicorn_pid, -> { File.join("tmp", "pids", "unicorn.pid") }
+set :unicorn_pid, -> { File.join(current_path, "tmp", "pids", "unicorn.pid") }
 set :unicorn_config_path, -> { File.join(current_path, "config", "unicorn.rb") }
 
-set :rvm_ruby_version, '2.6.5'      # Defaults to: 'default'
+set :rvm_ruby_version, '2.6.5' # Defaults to: 'default'
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 

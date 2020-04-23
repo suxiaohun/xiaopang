@@ -7,8 +7,13 @@ lock "~> 3.13.0"
 set :application, "xiaopang"
 set :repo_url, "git@github.com:suxiaohun/xiaopang.git"
 
+set :rails_env, "production"
 set :unicorn_pid, -> { File.join(current_path, "tmp", "pids", "unicorn.pid") }
 set :unicorn_config_path, -> { File.join(current_path, "config", "unicorn.rb") }
+set :unicorn_roles, -> { :app }
+set :unicorn_options, -> { "" }
+set :unicorn_restart_sleep_time, 3
+
 
 set :rvm_ruby_version, '2.6.5' # Defaults to: 'default'
 # Default branch is :master
@@ -45,6 +50,57 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 # Uncomment the following to require manually verifying the host key before first deploy.
 # set :ssh_options, verify_host_key: :secure
 
+namespace :unicorn do
+  desc "Start Unicorn"
+  task :start do
+    on roles(fetch(:unicorn_roles)) do
+      within current_path do
+        if test("[ -e #{fetch(:unicorn_pid)} ] && kill -0 #{pid}")
+          info "unicorn is running..."
+        else
+          with rails_env: fetch(:rails_env) do
+            execute :bundle, "exec unicorn", "-c", fetch(:unicorn_config_path), "-E", fetch(:rails_env), "-D", fetch(:unicorn_options)
+          end
+        end
+      end
+    end
+  end
+
+  desc "Restart Unicorn (USR2); use this when preload_app: true"
+  task :restart do
+    invoke "unicorn:start"
+    on roles(fetch(:unicorn_roles)) do
+      within current_path do
+        info "unicorn restarting..."
+        execute :kill, "-s USR2", pid
+      end
+    end
+  end
+
+
+  desc "Legacy Restart (USR2 + QUIT); use this when preload_app: true and oldbin pid needs cleanup"
+  task :legacy_restart do
+    invoke "unicorn:restart"
+    on roles(fetch(:unicorn_roles)) do
+      within current_path do
+        execute :sleep, fetch(:unicorn_restart_sleep_time)
+        if test("[ -e #{fetch(:unicorn_pid)}.oldbin ]")
+          execute :kill, "-s QUIT", pid_oldbin
+        end
+      end
+    end
+  end
+
+end
+
+def pid
+  "`cat #{fetch(:unicorn_pid)}`"
+end
+
+def pid_oldbin
+  "`cat #{fetch(:unicorn_pid)}.oldbin`"
+end
+
 
 after 'deploy:publishing', 'deploy:restart'
 namespace :deploy do
@@ -52,3 +108,7 @@ namespace :deploy do
     invoke 'unicorn:legacy_restart'
   end
 end
+
+
+
+

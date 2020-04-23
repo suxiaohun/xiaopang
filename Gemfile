@@ -49,7 +49,6 @@ gem 'capistrano', '~> 3.6'
 gem 'capistrano-bundler', '~> 1.6'
 gem 'capistrano-rails'
 gem 'capistrano-rvm'
-gem 'capistrano3-unicorn'
 
 
 gem 'unicorn'

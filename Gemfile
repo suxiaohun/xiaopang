@@ -18,6 +18,8 @@ gem 'redis-namespace'
 gem 'sidekiq'
 
 
+gem 'execjs'
+
 gem 'bootstrap'
 
 # Use SCSS for stylesheets

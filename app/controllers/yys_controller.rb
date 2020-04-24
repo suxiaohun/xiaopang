@@ -171,8 +171,8 @@ class YysController < ApplicationController
   end
 
   def summon_sp(number, mode, up_count)
-    ssrs = YysShiShen.where(kind: 'SSR', form: 'origin').where.not(sid: SPEC_SID)
-    sps = YysShiShen.where(kind: 'SP', form: 'origin')
+    ssrs = YysShiShen.where(kind: 'SSR', form: 'origin')
+    sps = YysShiShen.where(kind: 'SP', form: 'origin').where.not(sid: SPEC_SID)
 
     result = {}
     spec_flag = true

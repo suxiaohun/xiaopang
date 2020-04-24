@@ -1,5 +1,15 @@
 module YysHelper
 
+
+  def last_patch
+    YysPatch.last
+  end
+
+
+  def patch_list
+    YysPatch.order(id: :desc).pluck(:version, :content)
+  end
+
   def region_drop_list
     YysRegion.order(:id).pluck(:name, :key)
   end

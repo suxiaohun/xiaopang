@@ -52,24 +52,6 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 # set :ssh_options, verify_host_key: :secure
 
 
-#namespace :yarn do
-#  task :install do
-#    # Someone decided to install yarn every time asset:precompile is called for some strange reason.
-#    # It's less then optimal - as it prevents us from doing it in a separate step during deploy with specific options.
-#    # So we clear the old task and override it with an empty one.
-#  end
-#end
-
-
-#if Rake::Task.task_defined?("deploy:compile_assets")
-#  binding.pry
-#  #Rake::Task["yarn:install"].clear
-#  puts "....defined"
-#else
-#  binding.pry
-#  puts ".....not defined"
-#end
-
 namespace :xiaosu do
   desc 'link books directory'
   task :link_books do

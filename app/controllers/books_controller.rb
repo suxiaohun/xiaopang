@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: [:show, :next, :goto, :edit, :update, :destroy]
+  before_action :set_book, only: [:show, :page_size, :next, :goto, :edit, :update, :destroy]
 
   # GET /books
   # GET /books.json
@@ -14,7 +14,6 @@ class BooksController < ApplicationController
       @books = Book.includes(:author).where(category_id: params[:id])
     end
   end
-
 
 
   # GET /books/1

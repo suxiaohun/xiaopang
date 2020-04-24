@@ -94,8 +94,8 @@ end
 namespace :unicorn do
   desc "Start Unicorn"
   task :start do
-    on roles(fetch(:unicorn_roles)) do
-      within current_path do
+    on roles(:all) do
+      within release_path do
         if test("[ -e #{fetch(:unicorn_pid)} ] && kill -0 #{pid}")
           info "unicorn is running..."
         else
@@ -110,8 +110,8 @@ namespace :unicorn do
   desc "Restart Unicorn (USR2); use this when preload_app: true"
   task :restart do
     invoke "unicorn:start"
-    on roles(fetch(:unicorn_roles)) do
-      within current_path do
+    on roles(:all) do
+      within release_path do
         info "unicorn restarting..."
         execute :kill, "-s USR2", pid
       end
@@ -122,8 +122,8 @@ namespace :unicorn do
   desc "Legacy Restart (USR2 + QUIT); use this when preload_app: true and oldbin pid needs cleanup"
   task :legacy_restart do
     invoke "unicorn:restart"
-    on roles(fetch(:unicorn_roles)) do
-      within current_path do
+    on roles(:all) do
+      within release_path do
         execute :sleep, fetch(:unicorn_restart_sleep_time)
         if test("[ -e #{fetch(:unicorn_pid)}.oldbin ]")
           execute :kill, "-s QUIT", pid_oldbin

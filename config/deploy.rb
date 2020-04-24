@@ -107,6 +107,27 @@ namespace :unicorn do
     end
   end
 
+  desc "Stop Unicorn (QUIT)"
+  task :stop do
+    on roles(fetch(:unicorn_roles)) do
+      within current_path do
+        if test("[ -e #{fetch(:unicorn_pid)} ]")
+          if test("kill -0 #{pid}")
+            info "stopping unicorn..."
+            execute :kill, "-s QUIT", pid
+          else
+            info "cleaning up dead unicorn pid..."
+            execute :rm, fetch(:unicorn_pid)
+          end
+        else
+          info "unicorn is not running..."
+        end
+      end
+    end
+  end
+
+
+
   desc "Restart Unicorn (USR2); use this when preload_app: true"
   task :restart do
     invoke "unicorn:start"

@@ -37,7 +37,7 @@ set :deploy_to, "/var/www/xiaopang"
 append :linked_files, "config/database.yml", "config/master.key"
 
 # Default value for linked_dirs is []
-append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system",'app/assets/videos'
+append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system",'app/assets/videos', "public/packs", "node_modules"
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -52,15 +52,23 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 # set :ssh_options, verify_host_key: :secure
 
 
-Rake::Task["yarn:install"].clear
-namespace :yarn do
-  task :install do
-    # Someone decided to install yarn every time asset:precompile is called for some strange reason.
-    # It's less then optimal - as it prevents us from doing it in a separate step during deploy with specific options.
-    # So we clear the old task and override it with an empty one.
-  end
-end
+#namespace :yarn do
+#  task :install do
+#    # Someone decided to install yarn every time asset:precompile is called for some strange reason.
+#    # It's less then optimal - as it prevents us from doing it in a separate step during deploy with specific options.
+#    # So we clear the old task and override it with an empty one.
+#  end
+#end
 
+
+#if Rake::Task.task_defined?("deploy:compile_assets")
+#  binding.pry
+#  #Rake::Task["yarn:install"].clear
+#  puts "....defined"
+#else
+#  binding.pry
+#  puts ".....not defined"
+#end
 
 namespace :xiaosu do
   desc 'link books directory'

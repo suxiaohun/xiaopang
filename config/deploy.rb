@@ -3,7 +3,10 @@ lock "~> 3.13.0"
 
 #set :rvm1_map_bins, %w{rake gem bundle ruby}
 
-
+# todo unicorn 重启有问题
+# todo 1。无法正常重启，原进程未杀掉
+# todo 2。热重启之后，功能未生效，需先kill原进程才可以
+# todo 3。有时间尝试使用puma来部署，观察一下
 set :application, "xiaopang"
 set :repo_url, "git@github.com:suxiaohun/xiaopang.git"
 

@@ -152,9 +152,26 @@ namespace :yys do
     regions << {name: '八岐魅影', mode: 'ALL', key: 'baqimeiying'}
     regions << {name: '稚羽萌心', mode: 'ALL', key: 'zhiyumengxin'}
     regions << {name: '愿予必成', mode: 'ALL', key: 'yuanyubicheng'}
+    regions << {name: '渡世之风', mode: 'ALL', key: 'dushizhifeng'}
+    regions << {name: '百鬼夜行', mode: 'ALL', key: 'baiguiyexing'}
     regions.each do |region|
       puts "...创建大区：#{region[:name]}"
       YysRegion.create!(region)
+    end
+  end
+
+  def init_patches
+    patches = []
+    patches << {version: "v0.2.8", content: "添加了未收录+神眷的召唤模拟"}
+    patches << {version: "v0.2.9", content: "修复了伪全图神眷概率不正确的问题"}
+    patches << {version: "v0.3.0", content: "修复了未收录时，未计算神眷的bug，合并了神眷的显示"}
+    patches << {version: "v0.3.1", content: "添加活动：丑时之女·椿裳生花"}
+    patches << {version: "v0.3.2", content: "添加缘结神召唤活动<br>由于召唤活动通常会伴随三次up，所以将三次up和概率up合并了"}
+    patches << {version: "v0.3.3", content: "添加浮世青行灯召唤活动", title: "召唤：浮世青行灯"}
+
+    patches.each do |attrs|
+      puts "...模拟器补丁: #{attrs[:version]}: #{attrs[:content]}"
+      YysPatch.find_or_create_by!(attrs)
     end
   end
 
@@ -162,6 +179,7 @@ namespace :yys do
   task init: :environment do
     init_shi_shen
     init_region
+    init_patches
   end
 
 

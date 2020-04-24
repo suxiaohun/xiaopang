@@ -9,7 +9,7 @@
   input[type='checkbox'], input[type='radio'] {
     height: 30px;
     width: 30px;
-    zoom:101%;
+    zoom: 101%;
   }
 
   .checkbox_text {
@@ -99,7 +99,7 @@
     list-style: none;
   }
 
-  .hd-text{
+  .hd-text {
     margin-left: 42px;
     color: blue;
     font-size: 24px;
@@ -181,7 +181,9 @@
 
 <div style="padding-left: 20px;width: 300px;">
   <span style="color: blue;font-size: 20px;padding-right: 20px;">抽卡模拟器</span>
-  <button type="button" style="padding: 5px 5px;display: inline" data-toggle="modal" data-target="#versionModal">更新日志(v0.3.2)</button>
+  <button type="button" style="padding: 5px 5px;display: inline" data-toggle="modal" data-target="#versionModal">更新日志(<%= last_patch.try(:version) %>
+    )
+  </button>
 </div>
 
 <div class="modal" id="versionModal" tabindex="-1" role="dialog" data-backdrop="static">
@@ -194,20 +196,15 @@
         </button>
       </div>
       <div class="modal-body">
-        <span style="color: blue;">
-          v0.3.2:添加缘结神召唤活动<br>
-          由于召唤活动通常会伴随三次up，所以将三次up和概率up合并了<br>
-        </span>
-        <hr>
-        v0.3.1:添加活动：丑时之女·椿裳生花
-        <hr>
-        v0.3.0:修复了未收录时，未计算神眷的bug，合并了神眷的显示
-        <hr>
-        v0.2.9:修复了伪全图神眷概率不正确的问题
-        <hr>
-        v0.2.8:添加了未收录+神眷的召唤模拟
-        <hr>
-
+        <% patch_list.each_with_index do |patch, i| %>
+          <% if i == 0 %>
+            <span style="color: blue;"><%= raw(patch.join(": ")) %></span>
+            <hr>
+          <% else %>
+            <%= raw(patch.join(": ")) %>
+            <hr>
+          <% end %>
+        <% end %>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -264,7 +261,7 @@
       <!--      </tr>-->
       <li class="main-li">
         <%= hidden_field_tag 'hd', 'SP' %>
-        <span class="hd-text">召唤：浮世青行灯</span>
+        <span class="hd-text"><%= last_patch.try(:title) %></span>
       </li>
       <!--      <tr>-->
       <!--        <td colspan="2"><%#= radio_button_tag 'spec_up', 'SP', false %>-->

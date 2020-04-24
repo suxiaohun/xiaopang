@@ -8,7 +8,13 @@
     <%= stylesheet_link_tag 'yys', media: 'all', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <body id="yys">
+  <% if cookies[:nick_name] %>
+    <div>你好，『<span style="color: blue;" id="nick_name"><%= cookies[:nick_name] %></span>』
+      <%= link_to '更换昵称', yys_auth_path %>
+      <hr>
+    </div>
+  <% end %>
     <%= yield %>
   </body>
   <%= javascript_pack_tag 'yys', 'data-turbolinks-track': 'reload' %>

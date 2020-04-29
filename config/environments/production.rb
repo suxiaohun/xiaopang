@@ -5,6 +5,7 @@ Rails.application.configure do
   config.cache_classes = true
 
   config.hosts << "www.xqianyu.com"
+  config.hosts << "localhost"
 
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers

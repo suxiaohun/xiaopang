@@ -63,6 +63,11 @@ gem 'elasticsearch-rails'
 
 gem 'kaminari'
 
+gem 'prometheus_exporter'
+
+gem 'raindrops'
+
+
 gem 'pry'
 
 group :development do

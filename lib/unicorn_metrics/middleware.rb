@@ -52,7 +52,9 @@ class UnicornMetrics::Middleware < Raindrops::Middleware
   def convert_prometheus_metrics(body)
     response = ""
     body.each do |k, v|
-      response << k
+      next unless v["value"]
+      key = k.split(".").join("_")
+      response << key
       response << " "
       response << v["value"].to_s
       response << "\n"

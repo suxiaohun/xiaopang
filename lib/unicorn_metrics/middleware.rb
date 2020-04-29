@@ -54,6 +54,13 @@ class UnicornMetrics::Middleware < Raindrops::Middleware
     body.each do |k, v|
       next unless v["value"]
       key = k.split(".").join("_")
+
+      # 注释，声明类型
+      response << "# HELP sidekiq_busy_workers The number of workers performing the job."
+      response << "\n"
+      response << "# TYPE #{key} gauge"
+      response << "\n"
+
       response << key
       response << " "
       response << v["value"].to_s

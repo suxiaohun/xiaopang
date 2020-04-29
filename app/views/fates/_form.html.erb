@@ -1,0 +1,23 @@
+<%= form_with(model: fate, local: true) do |form| %>
+  <% if fate.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(fate.errors.count, "error") %> prohibited this fate from being saved:</h2>
+
+      <ul>
+        <% fate.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.text_field :title, style: 'width:1024px;height:40px;' %>
+
+  <label for="fate_content"></label>
+  <textarea id="fate_content" name="fate[content]">
+  <%= @fate.content %>
+</textarea>
+  <div class="actions" style="text-align: right">
+    <%= form.submit :commit, class: 'btn btn-info' %>
+  </div>
+<% end %>

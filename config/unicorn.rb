@@ -10,6 +10,8 @@ listen 3000
 
 worker_processes 8
 
+timeout 30 # default 60
+
 preload_app true
 
 pid "#{Rails.root}/tmp/pids/unicorn.pid"

@@ -50,6 +50,7 @@ gem 'capistrano-bundler', '~> 1.6'
 gem 'capistrano-rails'
 gem 'capistrano-rvm'
 
+#gem 'unicorn_metrics', '~> 0.2.1'
 
 gem 'unicorn'
 

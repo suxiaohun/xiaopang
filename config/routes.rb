@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
 
 
+  match 'fates/auth', to: 'fates#auth', :via => [:get, :post]
+
+  resources :fates
   get 'yys',to: 'yys#index'
   match 'yys/auth', to: 'yys#auth', :via => [:get, :post]
   get 'yys/rate', to: 'yys#rate'

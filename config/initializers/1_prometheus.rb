@@ -6,7 +6,7 @@ unless Rails.env == "test"
   require 'prometheus_exporter/middleware'
   require 'prometheus_exporter/server'
 #
-#  PrometheusExporter::Metric::Base.default_prefix = "ruby_"
+  PrometheusExporter::Metric::Base.default_prefix = "ruby_"
 #  PrometheusExporter::Metric::Base.default_labels = { "project" => "xiaopang" }
 #
 ## bind is the address, on which the webserver will listen

@@ -30,3 +30,8 @@ after_fork do |_server, _worker|
       config_labels: [:database, :host] #optional params
   )
 end
+
+after_fork do |_server, _worker|
+  require 'prometheus_exporter/instrumentation'
+  PrometheusExporter::Instrumentation::Process.start(type:"web")
+end

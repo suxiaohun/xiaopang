@@ -2,7 +2,7 @@ unless Rails.env == "test"
 
 # client allows instrumentation to send info to server
 #  require 'prometheus_exporter/client'
-#  require 'prometheus_exporter/instrumentation'
+  require 'prometheus_exporter/instrumentation'
   require 'prometheus_exporter/middleware'
   require 'prometheus_exporter/server'
 #
@@ -35,7 +35,7 @@ unless Rails.env == "test"
 #  counter.observe
 
   # this reports basic process stats like RSS and GC info
-  #PrometheusExporter::Instrumentation::Process.start(type: "ruby")
+  PrometheusExporter::Instrumentation::Process.start(type: "ruby")
 
   #PrometheusExporter::Instrumentation::Unicorn.start(pid_file: "tmp/pids/unicorn.pid",listener_address: "localhost")
 

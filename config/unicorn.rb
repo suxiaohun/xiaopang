@@ -22,3 +22,13 @@ stdout_path "#{Rails.root}/log/unicorn_out.log"
 before_exec do |_|
   ENV["BUNDLE_GEMFILE"] = File.join(Rails.root, 'Gemfile')
 end
+
+after_fork do |_server, _worker|
+  require 'prometheus_exporter/instrumentation'
+  require 'prometheus_exporter/instrumentation'
+  PrometheusExporter::Instrumentation::Process.start(type:"web")
+  PrometheusExporter::Instrumentation::ActiveRecord.start(
+      custom_labels: { type: "unicorn_worker" }, #optional params
+      config_labels: [:database, :host] #optional params
+  )
+end

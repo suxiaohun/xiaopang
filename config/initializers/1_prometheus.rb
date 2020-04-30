@@ -24,6 +24,12 @@ unless Rails.env == "test"
   server.collector.register_metric(summary)
   server.collector.register_metric(histogram)
 
+  gauge.observe(server.get_rss)
+  gauge.observe(server.get_rss)
+
+
+  counter.observe
+  counter.observe
 
   # this reports basic process stats like RSS and GC info
   PrometheusExporter::Instrumentation::Process.start(type: "master")

@@ -4,7 +4,11 @@ require_relative 'config/environment'
 
 
 
-require 'unicorn_metrics/middleware'
-use UnicornMetrics::Middleware
+#require 'unicorn_metrics/middleware'
+#use UnicornMetrics::Middleware
 # other middleware...
+
+
+
+
 run Rails.application

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  get 'test_timeout', to: 'common#test_timeout'
 
   match 'fates/auth', to: 'fates#auth', :via => [:get, :post]
 

@@ -35,7 +35,7 @@ unless Rails.env == "test"
 #  counter.observe
 
   # this reports basic process stats like RSS and GC info
-  PrometheusExporter::Instrumentation::Process.start(type: "ruby")
+  PrometheusExporter::Instrumentation::Process.start(type: "master")
 
   #PrometheusExporter::Instrumentation::Unicorn.start(pid_file: "tmp/pids/unicorn.pid",listener_address: "localhost")
 

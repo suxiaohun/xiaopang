@@ -33,5 +33,5 @@ end
 
 after_fork do |_server, _worker|
   require 'prometheus_exporter/instrumentation'
-  PrometheusExporter::Instrumentation::Process.start(type:"web")
+  PrometheusExporter::Instrumentation::Process.start(type:"worker")
 end

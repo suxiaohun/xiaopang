@@ -65,7 +65,7 @@ gem 'kaminari'
 
 gem 'prometheus_exporter'
 
-gem 'raindrops'
+#gem 'raindrops'
 
 
 gem 'pry'

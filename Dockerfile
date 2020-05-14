@@ -10,4 +10,4 @@ RUN bundle install
 
 COPY . .
 
-CMD ["unicorn","-c","config/","unicorn.rb","-D","-E","production"]
+CMD ["unicorn","-c","config/unicorn.rb","-D","-E","production"]

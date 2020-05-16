@@ -4,6 +4,7 @@ namespace :yys do
 
     # SSR
     shi_shens = []
+    shi_shens << {name: '铃鹿御前', sid: '349', cartoon: false}
     shi_shens << {name: '缘结神', sid: '347', cartoon: false}
     shi_shens << {name: '鬼童丸', sid: '345', cartoon: false}
     shi_shens << {name: '云外镜', sid: '344', cartoon: false}
@@ -168,6 +169,7 @@ namespace :yys do
     patches << {version: "v0.3.1", content: "添加活动：丑时之女·椿裳生花"}
     patches << {version: "v0.3.2", content: "添加缘结神召唤活动<br>由于召唤活动通常会伴随三次up，所以将三次up和概率up合并了"}
     patches << {version: "v0.3.3", content: "添加浮世青行灯召唤活动", title: "召唤：浮世青行灯"}
+    patches << {version: "v0.3.4", content: "添加铃鹿御前召唤活动", title: "御浪之音·故鸣不绝"}
 
     patches.each do |attrs|
       puts "...模拟器补丁: #{attrs[:version]}: #{attrs[:content]}"

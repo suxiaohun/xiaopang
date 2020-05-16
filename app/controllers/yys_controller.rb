@@ -146,6 +146,12 @@ class YysController < ApplicationController
         result[num + 1][:cartoon] = ss.cartoon
         result[num + 1][:cartoon_sp] = ss.cartoon_sp
       end
+
+      if num == 519
+        result[num + 1] ||= {}
+        result[num + 1][:name] ||= ''
+        result[num + 1][:name] = result[num + 1][:name] + "<span style='color:#111de0;font-weight:bold;'>【月之符咒】</span>"
+      end
     end
 
     # 同时判定是否sp版本
@@ -163,6 +169,7 @@ class YysController < ApplicationController
         v[:video_path] = _v_path
       end
     end
+
 
     set_total_count
     summon_count = {}

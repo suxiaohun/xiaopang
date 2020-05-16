@@ -7,6 +7,6 @@ WORKDIR /var/www/xiaopang
 
 COPY . .
 
-RUN bundle install &&  bundle exec rake assets:precompile
+RUN bundle install
 
 CMD ["unicorn","-c","config/unicorn.rb","-E","production"]

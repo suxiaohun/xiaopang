@@ -36,3 +36,5 @@ yarn-debug.log*
 #Gemfile.lock
 config/database.yml
 
+app/assets/videos
+

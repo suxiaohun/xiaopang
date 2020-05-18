@@ -1,11 +1,16 @@
 #!/bin/bash
 cp config/database.yml.k8s config/database.yml
+echo "app/assets/videos" >> .dockerignore
+echo "public/assets/*.mp4" >> .dockerignore
+echo ".dockerignore" >> .dockerignore
+
 docker build -t  xiaopang:master  .
 docker tag xiaopang:master ccr.ccs.tencentyun.com/crystal/xiaopang:master
 docker push ccr.ccs.tencentyun.com/crystal/xiaopang:master
 
 
 bundle exec rake assets:precompile
+echo ".dockerignore" > .dockerignore
 docker build -t  xiaopang.static:master  -f docker/static.assets  .
 docker tag xiaopang.static:master ccr.ccs.tencentyun.com/crystal/xiaopang.static:master
 docker push ccr.ccs.tencentyun.com/crystal/xiaopang.static:master

@@ -5,8 +5,10 @@ RUN bundle config --global frozen 1
 
 WORKDIR /var/www/xiaopang
 
-COPY . .
+COPY Gemfile Gemfile.lock ./
 
 RUN bundle install
+
+COPY . .
 
 CMD ["unicorn","-c","config/unicorn.rb","-E","production"]

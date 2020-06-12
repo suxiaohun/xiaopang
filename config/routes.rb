@@ -1,11 +1,19 @@
 Rails.application.routes.draw do
 
+  get 'sense',to: 'tools#sense'
+  post 'sense_encode',to: 'tools#sense_encode'
   get 'test_timeout', to: 'common#test_timeout'
 
   match 'fates/auth', to: 'fates#auth', :via => [:get, :post]
 
   resources :fates
   get 'yys',to: 'yys#index'
+
+  get 'test',to: "yys#test"
+
+  post 'yys/update_info',to: 'yys#update_info'
+  get 'yys/guess',to: 'yys#guess'
+  get 'yys/simulate',to: 'yys#simulate'
   match 'yys/auth', to: 'yys#auth', :via => [:get, :post]
   get 'yys/rate', to: 'yys#rate'
   post 'yys/summon', to: 'yys#summon'

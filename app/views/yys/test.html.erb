@@ -1,0 +1,9 @@
+
+<% (217..350).to_a.each do |i| %>
+  skills << {sid: <%= i %>, skill_id: 1, skill_name: '', skill_kind: 'damage', skill_mode: 'unit', skill_damage: [1.2], extra: false} <br>
+  skills << {sid: <%= i %>, skill_id: 2, skill_name: '', skill_kind: 'passive', extra: true}<br>
+  skills << {sid: <%= i %>, skill_id: 3, skill_name: '', skill_kind: 'hybrid', skill_mode: 'group' ，skill_damage: [0.36, 0.36, 0.36], extra: false}
+<br>
+<br>
+
+<% end %>

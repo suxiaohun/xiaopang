@@ -1,0 +1,115 @@
+<style type="text/css">
+  table {
+    border-collapse: collapse;
+    display: inline-block;
+  }
+
+  thead {
+    text-align: center;
+  }
+
+  td {
+    border: 1px solid gray;
+    min-width: 60px;
+    text-align: center;
+  }
+</style>
+红
+<table>
+  <thead>
+  <tr>
+    <th>式神</th>
+    <th>御魂</th>
+    <th>站位</th>
+    <th>攻击</th>
+    <th>生命</th>
+    <th>防御</th>
+    <th>速度</th>
+    <th>暴击</th>
+    <th>暴伤</th>
+    <th>命中</th>
+    <th>抵抗</th>
+  </tr>
+  </thead>
+  <% @red.each do |v| %>
+    <tr>
+      <td><%= v[:sname] %></td>
+      <td><%= v[:mname] %></td>
+      <td><%= v[:position] %></td>
+      <td><%= v[:damage] %></td>
+      <td><%= v[:health] %></td>
+      <td><%= v[:armor] %></td>
+      <td><%= v[:speed] %></td>
+      <td><%= v[:crit_chance] %>%</td>
+      <td><%= v[:crit_damage] %>%</td>
+      <td><%= v[:hit] %>%</td>
+      <td><%= v[:resist] %>%</td>
+    </tr>
+  <% end %>
+</table>
+
+蓝
+<table>
+  <thead>
+  <tr>
+    <th>式神</th>
+    <th>御魂</th>
+    <th>站位</th>
+    <th>攻击</th>
+    <th>生命</th>
+    <th>防御</th>
+    <th>速度</th>
+    <th>暴击</th>
+    <th>暴伤</th>
+    <th>命中</th>
+    <th>抵抗</th>
+  </tr>
+  </thead>
+  <% @blue.each do |v| %>
+    <tr>
+      <td><%= v[:sname] %></td>
+      <td><%= v[:mname] %></td>
+      <td><%= v[:position] %></td>
+      <td><%= v[:damage] %></td>
+      <td><%= v[:health] %></td>
+      <td><%= v[:armor] %></td>
+      <td><%= v[:speed] %></td>
+      <td><%= v[:crit_chance] %>%</td>
+      <td><%= v[:crit_damage] %>%</td>
+      <td><%= v[:hit] %>%</td>
+      <td><%= v[:resist] %>%</td>
+    </tr>
+  <% end %>
+</table>
+
+
+
+
+<hr>
+
+<% @result.each do |k, v| %>
+
+  <span style="color: <%= v[:obj][:kind] %>"> <%= k %>: <%= v[:obj][:sname] %>: <%= v[:msg] %>
+
+    【armor: <%= v[:obj][:armor] + v[:obj][:armor_bound] %>】
+
+    <% v[:obj][:actual_damage].each do |kk, vv| %>
+      <table>
+        <tr><td>name: <%= vv[:sname] %></td></tr>
+        <tr><td>health: <%= vv[:curr_health].to_i %></td></tr>
+        <% if vv[:min_damage] == vv[:max_damage] %>
+            <tr><td>damage: <span style="color: <%= v[:obj][:kind] == 'red' ? 'blue' : 'red' %>">-<%= vv[:max_damage] %></span></td></tr>
+        <% else %>
+                <tr><td>min_damage: <span style="color: <%= v[:obj][:kind] == 'red' ? 'blue' : 'red' %>">-<%= vv[:min_damage] %></span></td></tr>
+                <tr><td>max_damage: <span style="color: <%= v[:obj][:kind] == 'red' ? 'blue' : 'red' %>">-<%= vv[:max_damage] %></span></td></tr>
+          </table>
+        <% end %>
+    <% end %>
+
+
+
+  </span>
+
+  <br>----------------<br>
+
+<% end %>

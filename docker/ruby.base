@@ -1,7 +1,5 @@
-FROM ruby:2.6.5-stretch
+FROM ruby:2.6.5
 
-RUN set -x \
-  && sed -i 's/mirrors.aliyun.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list \
-  && apt-get update \
-  && gem install bundler -v '2.1.4' \
-  &&
+COPY Gemfile Gemfile.lock ./
+
+RUN bundle install

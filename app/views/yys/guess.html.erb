@@ -1,0 +1,105 @@
+<style type="text/css">
+  table {
+    border-collapse: collapse;
+  }
+
+  thead th {
+    text-align: center;
+  }
+
+  #red td {
+    border: 1px solid red;
+  }
+
+  #blue td {
+    border: 1px solid blue;
+  }
+
+  input[type='number'] {
+    width: 100px;
+  }
+</style>
+<div style="width: 100%;height: 100%;margin: 0 auto;padding: 20px 20px">
+
+
+  <%= form_tag('update_info', method: :post, remote: true) do %>
+    <h2>红</h2>
+    <table id="red">
+      <thead>
+      <tr>
+        <th>式神</th>
+        <th>御魂</th>
+        <th>站位</th>
+        <th>攻击</th>
+        <th>生命</th>
+        <th>防御</th>
+        <th>速度</th>
+        <th>暴击</th>
+        <th>暴伤</th>
+        <th>命中</th>
+        <th>抵抗</th>
+      </tr>
+      </thead>
+      <% 5.times do |i| %>
+        <tr>
+          <td><%= select_tag "red[#{i + 1}][sid]", options_for_select(shishen_list, rand_sid), class: 'selectpicker', "data-live-search": true %></td>
+          <td><%= select_tag "red[#{i + 1}][mid]", options_for_select(mitama_list), class: 'selectpicker', "data-live-search": true %></td>
+          <td><%= select_tag "red[#{i + 1}][position]", options_for_select(position_list), class: 'selectpicker' %></td>
+          <td><%= number_field_tag "red[#{i + 1}[damage]", rand_profile('damage') %></td>
+          <td><%= number_field_tag "red[#{i + 1}[health]", rand_profile('health') %></td>
+          <td><%= number_field_tag "red[#{i + 1}[armor]", rand_profile('armor') %></td>
+          <td><%= number_field_tag "red[#{i + 1}[speed]", rand_profile('speed') %></td>
+          <td><%= number_field_tag "red[#{i + 1}[crit_chance]", rand_profile('crit_chance') %></td>
+          <td><%= number_field_tag "red[#{i + 1}[crit_damage]", rand_profile('crit_damage') %></td>
+          <td><%= number_field_tag "red[#{i + 1}[hit]", rand_profile('hit') %></td>
+          <td><%= number_field_tag "red[#{i + 1}[resist]", rand_profile('resist') %></td>
+        </tr>
+      <% end %>
+    </table>
+
+    <hr>
+    <h2>蓝</h2>
+    <table id="blue">
+      <thead>
+      <tr>
+        <th>式神</th>
+        <th>御魂</th>
+        <th>站位</th>
+        <th>攻击</th>
+        <th>生命</th>
+        <th>防御</th>
+        <th>速度</th>
+        <th>暴击</th>
+        <th>暴伤</th>
+        <th>命中</th>
+        <th>抵抗</th>
+      </tr>
+      </thead>
+      <% 5.times do |i| %>
+        <tr>
+          <td><%= select_tag "blue[#{i + 1}][sid]", options_for_select(shishen_list, rand_sid), class: 'selectpicker', "data-live-search": true %></td>
+          <td><%= select_tag "blue[#{i + 1}][mid]", options_for_select(mitama_list), class: 'selectpicker', "data-live-search": true %></td>
+          <td><%= select_tag "blue[#{i + 1}][position]", options_for_select(position_list), class: 'selectpicker' %></td>
+          <td><%= number_field_tag "blue[#{i + 1}[damage]", rand_profile('damage') %></td>
+          <td><%= number_field_tag "blue[#{i + 1}[health]", rand_profile('health') %></td>
+          <td><%= number_field_tag "blue[#{i + 1}[armor]", rand_profile('armor') %></td>
+          <td><%= number_field_tag "blue[#{i + 1}[speed]", rand_profile('speed') %></td>
+          <td><%= number_field_tag "blue[#{i + 1}[crit_chance]", rand_profile('crit_chance') %></td>
+          <td><%= number_field_tag "blue[#{i + 1}[crit_damage]", rand_profile('crit_damage') %></td>
+          <td><%= number_field_tag "blue[#{i + 1}[hit]", rand_profile('hit') %></td>
+          <td><%= number_field_tag "blue[#{i + 1}[resist]", rand_profile('resist') %></td>
+        </tr>
+      <% end %>
+    </table>
+
+
+    <%= submit_tag '更新阵容' %>
+
+    <span class="badge-success" id="update-info"></span>
+
+
+  <% end %>
+
+<%#= link_to :start, yys_simulate_path %>
+
+</div>

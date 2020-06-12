@@ -35,6 +35,7 @@ yarn-debug.log*
 .generators
 #Gemfile.lock
 config/database.yml
-
+config/property.yml
 app/assets/videos
+
 

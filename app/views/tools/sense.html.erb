@@ -1,0 +1,50 @@
+<style>
+  input[type='text']{
+    width: 400px;
+    line-height: 40px;
+    border-radius: 5px;
+  }
+</style>
+<div style="width: 1024px;height: 100%;margin: 0 auto">
+
+
+<%= form_tag('sense_encode', method: :post, remote: true) do %>
+
+  <table>
+
+    <tr>
+      <td>api_key</td>
+      <td><%= text_field_tag :api_key %></td>
+    </tr>
+    <tr>
+      <td>api_secret</td>
+      <td><%= text_field_tag :api_secret %></td>
+    </tr>
+    <tr>
+      <td>client_source</td>
+      <td><%= text_field_tag :client_source %></td>
+    </tr>
+    <tr>
+      <td>timestamp</td>
+      <td><%= text_field_tag :timestamp %></td>
+    </tr>
+    <tr>
+      <td>nonce</td>
+      <td><%= text_field_tag :nonce %></td>
+    </tr>
+    <tr>
+      <td>body</td>
+      <td><%= text_field_tag :body %></td>
+    </tr>
+  </table>
+
+
+
+  <%= submit_tag :submit %>
+
+<% end %>
+</div>
+
+<div id="result">
+
+</div>

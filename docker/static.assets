@@ -1,4 +1,4 @@
-FROM nginx:1.17.10
+FROM nginx.base:1.17.10
 COPY config/nginx/static.conf /etc/nginx/conf.d/default.conf
 
 COPY ./public /var/www/xiaopang/public

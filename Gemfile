@@ -11,6 +11,7 @@ gem 'mysql2', '>= 0.4.4'
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
 
+gem 'recursive-open-struct'
 
 gem 'redis'
 gem 'redis-namespace'

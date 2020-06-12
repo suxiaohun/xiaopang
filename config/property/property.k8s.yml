@@ -1,0 +1,5 @@
+redis:
+  host: 172.21.0.2
+  port: 6379
+  db: 0
+elasticsearch_host: http://172.21.0.2:9200

@@ -7,6 +7,247 @@ class YysController < ApplicationController
     @max_count = config[:max_pick_count] || 1000
   end
 
+  def guess
+
+  end
+
+  def guess_info
+
+  end
+
+  def update_info
+
+    red = []
+    blue = []
+
+    speed_arr = []
+
+    attr = %i(damage  health armor speed crit_chance crit_damage hit resist)
+
+    red_sids = params[:red].as_json.map { |k, v| v["sid"] }
+    red_ahead_speed = ahead_attr('speed', red_sids)
+    red_ahead_armor = ahead_attr('armor', red_sids)
+
+    params[:red].as_json.deep_symbolize_keys.each do |k, v|
+      speed_arr << v[:speed]
+      v[:sname] = YysShiShen.find_by_sid(v[:sid]).try(:name)
+      v[:mname] = YysMitama.find_by_mid(v[:mid]).try(:name)
+      v[:kind] = 'red'
+      v[:die] = false
+
+
+      attr.each do |ar|
+        v[ar] = v[ar].to_i
+      end
+
+      v[:damage_bound] = 0
+      v[:speed_bound] = red_ahead_speed
+      v[:armor_bound] = (v[:armor] * red_ahead_armor).to_i
+      v[:max_health] = v[:health] * 2.4
+      v[:curr_health] = v[:health] * 2.4
+      v[:health_percent] = (v[:curr_health] * 1.0 / v[:max_health]).round(2)
+
+      red << v
+    end
+
+    blue_sids = params[:blue].as_json.map { |k, v| v["sid"] }
+    blue_ahead_speed = ahead_attr('speed', blue_sids)
+    blue_ahead_armor = ahead_attr('armor', blue_sids)
+
+    params[:blue].as_json.deep_symbolize_keys.each do |k, v|
+      speed_arr << v[:speed]
+      v[:sname] = YysShiShen.find_by_sid(v[:sid]).try(:name)
+      v[:mname] = YysMitama.find_by_mid(v[:mid]).try(:name)
+      v[:kind] = 'blue'
+      v[:die] = false
+
+
+      attr.each do |ar|
+        v[ar] = v[ar].to_i
+      end
+
+      v[:damage_bound] = 0
+      v[:speed_bound] = blue_ahead_speed
+      v[:armor_bound] = (v[:armor] * blue_ahead_armor).to_i
+      v[:max_health] = v[:health] * 2.4
+      v[:curr_health] = v[:health] * 2.4
+      v[:health_percent] = (v[:curr_health] * 1.0 / v[:max_health]).round(2)
+
+      blue << v
+    end
+
+    YYS_REDIS.set('red', red.to_json)
+    YYS_REDIS.set('blue', blue.to_json)
+    YYS_REDIS.set('length', speed_arr.max.to_i)
+  end
+
+  def test
+
+  end
+
+  def simulate
+    @red = JSON.parse(YYS_REDIS.get('red')).map { |x| x.deep_symbolize_keys }
+    @blue = JSON.parse(YYS_REDIS.get('blue')).map { |x| x.deep_symbolize_keys }
+    @result = {}
+
+    all = @red + @blue
+
+    max_len = YYS_REDIS.get('length').to_i
+
+    all.each do |obj|
+      _len = max_len - obj[:speed]
+      _cost = _len * 1.00 / obj[:speed]
+      obj[:cost] = _cost
+      obj[:len] = obj[:speed]
+    end
+
+    100.times do |i|
+      round_pick = all.sort_by { |v| v[:cost] }
+      pick = round_pick.first
+      pick_cost = pick[:cost]
+
+      get_skill(pick)
+
+      get_damage(pick)
+
+
+      @result["round-#{i}"] = {}
+      @result["round-#{i}"][:obj] = pick
+
+      round_msg = []
+
+      #if pick[1][:clear]
+      #  blue.each do |kk,vv|
+      #    if rand < 0.2
+      #      clear_len = max_len*pick[1][:clear]
+      #      vv[:len] = [vv[:len]-clear_len,0].max
+      #      round_msg << "#{kk}被击退#{pick[1][:clear]*100}%行动条"
+      #    end
+      #  end
+      #end
+
+      # 下一个行动判定
+      all.each do |v|
+        actual_speed = v[:speed] + v[:speed_bound]
+        if v[:sid] == pick[:sid]
+          v[:len] = 0
+        else
+          fix_len = 0
+          #if v[:spec] && v[:kind] != pick[1][:kind]
+          #  fix_len = v[:spec] *max_len
+          #  round_msg << "#{k}增加#{(v[:spec]*100).to_i}%行动条"
+          #end
+          v[:len] = [(pick_cost * actual_speed + fix_len + v[:len]), max_len].min
+        end
+        v[:cost] = (max_len - v[:len]) * 1.00 / actual_speed
+      end
+      @result["round-#{i}"][:msg] = round_msg
+    end
+
+  end
+
+  def get_skill(obj)
+    if obj[:kind] == 'blue'
+      parties = JSON.parse(YYS_REDIS.get('blue')).map { |x| x.deep_symbolize_keys }.select { |x| x[:sid] != obj[:sid] }
+      targets = JSON.parse(YYS_REDIS.get('red')).map { |x| x.deep_symbolize_keys }.select { |x| !x[:die] }
+    else
+      parties = JSON.parse(YYS_REDIS.get('red')).map { |x| x.deep_symbolize_keys }.select { |x| x[:sid] != obj[:sid] }
+      targets = JSON.parse(YYS_REDIS.get('blue')).map { |x| x.deep_symbolize_keys }.select { |x| !x[:die] }
+    end
+
+    skill, target = YysAiSkill.new.ai_skill_200(1, parties, targets)
+
+    obj[:round_skill] = skill
+    obj[:round_target] = target
+
+
+  end
+
+
+  def ahead_attr(type, sids = [])
+    ahead_armor_sids = ['280']
+    ahead_speed_sids = ['326', '330']
+
+    armor_sids = sids & ahead_armor_sids
+    speed_sids = sids & ahead_speed_sids
+
+    case type
+    when 'speed'
+      return 0 if speed_sids.blank?
+      speed_bound = 0
+      if speed_sids.include? '326'
+        speed_bound += 20
+      end
+      if speed_sids.include? '330'
+        speed_bound += 20
+      end
+      return speed_bound
+    when 'armor'
+      return 0 if armor_sids.blank?
+      if armor_sids.include? '280'
+        return 0.2
+      end
+    else
+      0
+    end
+  end
+
+  # 计算其余五个目标受到的伤害
+  def get_damage(obj)
+
+    damage = {}
+    if obj[:kind] == 'blue'
+      targets = JSON.parse(YYS_REDIS.get('red')).select { |x| !x[:die] }
+    else
+      targets = JSON.parse(YYS_REDIS.get('blue')).select { |x| !x[:die] }
+    end
+    min_self_damage = obj[:damage] * (1 + obj[:damage_bound])
+    max_self_damage = obj[:damage] * (1 + obj[:damage_bound]) * obj[:crit_damage] / 100
+
+
+    # 技能加成
+    skill_rate = 1
+
+    # 裁判旗
+    flag_rate = 1
+
+    # 友方伤害加成
+    damage_rate = 1
+
+
+    # 浮动伤害
+    float_rate = [1.01, 0.99].sample
+
+
+    targets.each do |tt|
+      tt = tt.deep_symbolize_keys
+      damage[tt[:sid]] = {}
+      target_rate = 1
+
+      # todo 目标伤害加深
+
+      # 目标血线导致的额外加成（御魂、技能等）
+      mitama_rate = 1
+      target_rate = target_rate * mitama_rate
+
+      # 防御计算
+      total_armor = tt[:armor] + tt[:armor_bound]
+      armor_rate = total_armor * 1.00 / (total_armor + 300)
+      target_rate = target_rate * armor_rate
+
+      min_actual_damage = min_self_damage * skill_rate * flag_rate * damage_rate * float_rate * target_rate
+      max_actual_damage = max_self_damage * skill_rate * flag_rate * damage_rate * float_rate * target_rate
+      damage[tt[:sid]][:sname] = tt[:sname]
+      damage[tt[:sid]][:curr_health] = tt[:curr_health]
+      damage[tt[:sid]][:min_damage] = min_actual_damage.to_i
+      if tt[:crit_chance] >= 100
+        damage[tt[:sid]][:min_damage] = max_actual_damage.to_i
+      end
+      damage[tt[:sid]][:max_damage] = max_actual_damage.to_i
+    end
+    obj[:actual_damage] = damage
+  end
+
 
   def summon
     number = params[:number].to_i

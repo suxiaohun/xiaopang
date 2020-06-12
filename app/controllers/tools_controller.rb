@@ -1,5 +1,44 @@
 class ToolsController < ApplicationController
 
+  def sense
+
+  end
+
+  def sense_encode
+    api_key = params[:api_key].blank? ? '5f3c59ad4271425cac8c27e24b6b4468' : params[:api_key]
+    api_secret = params[:api_secret].blank? ? '7ce86784b8744975808b10d5c7c17801' : params[:api_secret]
+    client_source = params[:client_source].blank? ? 'ice' : params[:client_source]
+    timestamp = params[:timestamp].blank? ? (Time.now.to_f*1000).to_i.to_s : params[:timestamp]
+    nonce = params[:nonce].blank? ? SecureRandom.uuid.gsub("-","") : params[:nonce]
+    body = params[:body].blank? ? '' : (params[:body] || '')
+
+    md5_body = md5_body(body)
+    data = [api_key, client_source, timestamp, nonce, md5_body].sort.join('')
+    valid_sign = hmac_sha256(data, api_secret)
+
+    @data = {}
+    @data[:api_key] = api_key
+    @data[:api_secret] = api_secret
+    @data[:client_source] = client_source
+    @data[:timestamp] = timestamp
+    @data[:nonce] = nonce
+    @data[:body] = body
+    @data[:md5_body] = md5_body
+    @data[:sign] = valid_sign
+    @data[:data] = data
+
+
+    @str = ""
+
+    @data.each do |kk,vv|
+      @str << "#{kk.to_s.ljust(20,'-')}  #{vv}<br>"
+    end
+
+
+    puts @str
+
+  end
+
   def json_format
 
   end
@@ -40,6 +79,17 @@ class ToolsController < ApplicationController
   end
 
   private
+
+  def md5_body(data)
+    md5 = Digest::MD5.new
+    md5.update(data)
+    md5.hexdigest
+  end
+
+  def hmac_sha256(data, secret)
+    digest = OpenSSL::Digest.new('sha256')
+    OpenSSL::HMAC.hexdigest(digest, secret, data)
+  end
 
   def check_mobile_number(number)
     case number

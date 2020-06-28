@@ -19,7 +19,7 @@ set :unicorn_restart_sleep_time, 3
 ask :deploy_option, 'simple'
 
 
-set :rvm_ruby_version, '2.6.5' # Defaults to: 'default'
+#set :rvm_ruby_version, '2.6.5' # Defaults to: 'default'
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 

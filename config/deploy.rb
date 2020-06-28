@@ -19,6 +19,7 @@ set :unicorn_restart_sleep_time, 3
 ask :deploy_option, 'simple'
 
 
+set :rbenv_ruby, '2.6.5' # Defaults to: 'default'
 #set :rvm_ruby_version, '2.6.5' # Defaults to: 'default'
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
@@ -37,7 +38,7 @@ set :deploy_to, "/var/www/xiaopang"
 # set :pty, true
 
 # Default value for :linked_files is []
-append :linked_files, "config/database.yml", "config/master.key"
+append :linked_files, "config/database.yml", "config/master.key", "config/property.yml"
 
 # Default value for linked_dirs is []
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system",'app/assets/videos', "public/packs", "node_modules"

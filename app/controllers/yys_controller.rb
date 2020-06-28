@@ -25,6 +25,7 @@ class YysController < ApplicationController
     attr = %i(damage  health armor speed crit_chance crit_damage hit resist)
 
     red_sids = params[:red].as_json.map { |k, v| v["sid"] }
+    red_mids = params[:red].as_json.map { |k, v| v["mid"] }
     red_ahead_speed = ahead_attr('speed', red_sids)
     red_ahead_armor = ahead_attr('armor', red_sids)
 
@@ -51,6 +52,7 @@ class YysController < ApplicationController
     end
 
     blue_sids = params[:blue].as_json.map { |k, v| v["sid"] }
+    blue_mids = params[:blue].as_json.map { |k, v| v["mid"] }
     blue_ahead_speed = ahead_attr('speed', blue_sids)
     blue_ahead_armor = ahead_attr('armor', blue_sids)
 
@@ -79,6 +81,10 @@ class YysController < ApplicationController
     YYS_REDIS.set('red', red.to_json)
     YYS_REDIS.set('blue', blue.to_json)
     YYS_REDIS.set('length', speed_arr.max.to_i)
+    YYS_REDIS.set('red_resource', ahead_attr('resource', red_sids))
+    YYS_REDIS.set('red_point', ahead_attr('point', red_sids, red_mids))
+    YYS_REDIS.set('blue_resource', ahead_attr('resource', blue_sids))
+    YYS_REDIS.set('blue_point', ahead_attr('point', red_sids, blue_mids))
   end
 
   def test
@@ -86,6 +92,7 @@ class YysController < ApplicationController
   end
 
   def simulate
+
     @red = JSON.parse(YYS_REDIS.get('red')).map { |x| x.deep_symbolize_keys }
     @blue = JSON.parse(YYS_REDIS.get('blue')).map { |x| x.deep_symbolize_keys }
     @result = {}
@@ -160,16 +167,47 @@ class YysController < ApplicationController
     obj[:round_skill] = skill
     obj[:round_target] = target
 
+    obj[:round_begin_resource] = ''
+    obj[:round_end_resource] = ''
+    obj[:round_begin_point] = ''
+    obj[:round_end_point] = ''
+
+
 
   end
 
 
-  def ahead_attr(type, sids = [])
-    ahead_armor_sids = ['280']
-    ahead_speed_sids = ['326', '330']
+  def ahead_attr(type, sids = [], mids = [])
+    ahead_armor_sids = ['280'] # 先机防御：辉夜姬
+    ahead_speed_sids = ['326', '330'] # 先机速度：sp驴、不知火
+
 
     armor_sids = sids & ahead_armor_sids
     speed_sids = sids & ahead_speed_sids
+
+    # 鬼火
+    init_resource = 4
+    ahead_resource_sids = ['205'] # 先机鬼火：座敷童子
+    ahead_resource_mitamas = ['107'] # 先机鬼火：火灵
+
+    if (sids & ahead_resource_sids).present?
+      init_resource += 3
+    end
+
+    if (mids & ahead_resource_mitamas).present?
+      init_resource += 3
+    end
+
+    # 鬼火不能超过8
+    init_resource = [init_resource, 8].min
+
+    # 鬼火条
+    init_point = 0
+    ahead_point_sids = ['295'] # 先机鬼火条：追月神
+    if (sids & ahead_point_sids).present?
+      init_point += 4
+    end
+
 
     case type
     when 'speed'
@@ -187,6 +225,10 @@ class YysController < ApplicationController
       if armor_sids.include? '280'
         return 0.2
       end
+    when 'resource'
+      return init_resource
+    when 'point'
+      return init_point
     else
       0
     end

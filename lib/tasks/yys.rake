@@ -809,6 +809,7 @@ namespace :yys do
     mitamas << {mid: 104, name: '阴摩罗', remark: '击杀获得3点鬼火'}
     mitamas << {mid: 105, name: '涅槃之火', remark: '回合结束时,生命低于30%,治疗15%生命'}
     mitamas << {mid: 106, name: '幽谷响', remark: '抵抗时,50%几率将效果反弹给来源目标'}
+    mitamas << {mid: 107, name: '火灵', remark: '回目开始时：获得3点鬼火'}
 
     mitamas.each do |mitama|
       puts "...创建御魂：#{mitama[:name]}"

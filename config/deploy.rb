@@ -25,7 +25,7 @@ set :rbenv_ruby, '2.6.5' # Defaults to: 'default'
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, "/var/www/xiaopang"
+set :deploy_to, "/home/crystal/xiaopang"
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh

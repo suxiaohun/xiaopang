@@ -170,8 +170,6 @@ GEM
       coderay (~> 1.1)
       method_source (~> 1.0)
     public_suffix (4.0.5)
-    puma (4.3.3)
-      nio4r (~> 2.0)
     rack (2.2.2)
     rack-protection (2.0.8.1)
       rack
@@ -295,7 +293,6 @@ DEPENDENCIES
   mysql2 (>= 0.4.4)
   prometheus_exporter
   pry
-  puma (~> 4.1)
   rails (~> 6.0.2, >= 6.0.2.1)
   recursive-open-struct
   redis

@@ -4,7 +4,9 @@ ADD docker/rsa/id_rsa /etc/ssh/docker.rsa
 
 RUN chmod 600 /etc/ssh/docker.rsa && \
 echo "IdentityFile /etc/ssh/docker.rsa" >> /etc/ssh/ssh_config && \
-echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
+echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config && \
+apt update && apt install -y nodejs
+
 
 COPY Gemfile Gemfile.lock ./
 

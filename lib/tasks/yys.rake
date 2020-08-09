@@ -16,6 +16,7 @@ namespace :yys do
 
     # SSR
     shi_shens = []
+    shi_shens << {name: '紧那罗', kind: 'SSR', sid: '353', cartoon: false}
     shi_shens << {name: '铃鹿御前', kind: 'SSR', sid: '351', cartoon: false}
     shi_shens << {name: '缘结神', kind: 'SSR', sid: '347', cartoon: false}
     shi_shens << {name: '鬼童丸', kind: 'SSR', sid: '345', cartoon: false}
@@ -46,6 +47,7 @@ namespace :yys do
     shi_shens << {name: '大天狗', name_sp: '青竹', kind: 'SSR', sid: '217', cartoon: true, cartoon_sp: true}
 
     # SP
+    shi_shens << {name: '缚骨清姬', kind: 'SP', sid: '352', cartoon: false}
     shi_shens << {name: '浮世青行灯', kind: 'SP', sid: '348', cartoon: false}
     shi_shens << {name: '聆海金鱼姬', kind: 'SP', sid: '346', cartoon: false}
     shi_shens << {name: '天剑韧心鬼切', kind: 'SP', sid: '343', cartoon: true}
@@ -133,6 +135,7 @@ namespace :yys do
     shi_shens << {kind: 'SR', sid: 340, name: '纸舞'}
     shi_shens << {kind: 'SR', sid: 342, name: '星熊童子'}
     shi_shens << {kind: 'SR', sid: 349, name: '风狸'}
+    shi_shens << {kind: 'SR', sid: 350, name: '蝎女'}
 
     # R
     shi_shens << {kind: 'R', sid: 202, name: "三尾狐"}
@@ -923,6 +926,7 @@ namespace :yys do
     patches << {version: "v0.3.2", content: "添加缘结神召唤活动<br>由于召唤活动通常会伴随三次up,所以将三次up和概率up合并了"}
     patches << {version: "v0.3.3", content: "添加浮世青行灯召唤活动", title: "召唤：浮世青行灯"}
     patches << {version: "v0.3.4", content: "添加铃鹿御前召唤活动", title: "御浪之音·故鸣不绝"}
+    patches << {version: "v0.3.5", content: "添加紧那罗召唤活动", title: "瑶音夜曲·奏律成光"}
 
     patches.each do |attrs|
       puts "...模拟器补丁: #{attrs[:version]}: #{attrs[:content]}"

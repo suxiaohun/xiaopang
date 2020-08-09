@@ -1,13 +1,11 @@
-FROM ruby.base:2.6.5
+FROM ruby:2.6.5
 
-# throw errors if Gemfile has been modified since Gemfile.lock
-RUN bundle config --global frozen 1
+ADD docker/rsa/id_rsa /etc/ssh/docker.rsa
 
-WORKDIR /var/www/xiaopang
+RUN chmod 600 /etc/ssh/docker.rsa && \
+echo "IdentityFile /etc/ssh/docker.rsa" >> /etc/ssh/ssh_config && \
+echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 
 COPY Gemfile Gemfile.lock ./
-RUN bundle install
 
-#COPY . .
-#
-#CMD ["./your-daemon-or-script.rb"]
+RUN bundle install

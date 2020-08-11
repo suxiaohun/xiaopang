@@ -15,16 +15,13 @@ namespace :book do
 
   desc "init the books"
   task init: :environment do
-    # 删除索引
-    flag1 = system "rake elasticsearch:delete_index class=book"
-    # 重建索引
-    if flag1
-      flag2 = system "rake elasticsearch:create_index class=book"
-    end
+
+    flag1 = system "rake elasticsearch:create_index class=book"
+
     # 如果数据存在，同步数据到es
     #system "rake elasticsearch:rake elasticsearch:sync_data  class=book"
 
-    if flag2
+    if flag1
       Book.destroy_all
       books = YAML.load_file('lib/utils/files/book1.yml').deep_symbolize_keys
       books.each do |k, v|

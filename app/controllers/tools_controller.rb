@@ -1,5 +1,11 @@
 class ToolsController < ApplicationController
 
+
+
+  def  compress
+
+  end
+
   def sense
 
   end

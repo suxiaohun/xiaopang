@@ -1,7 +1,7 @@
 class CommonController < ApplicationController
-  def test_timeout
-    sleep 40
-    render json: {:msg => 'test_timeout'}
+  def test
+
+    @c = %w(1607327664672)
   end
 
   def index

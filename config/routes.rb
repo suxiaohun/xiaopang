@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'sense',to: 'tools#sense'
   post 'sense_encode',to: 'tools#sense_encode'
   get 'test_timeout', to: 'common#test_timeout'
+  get 'test', to: 'common#test'
 
   match 'fates/auth', to: 'fates#auth', :via => [:get, :post]
 

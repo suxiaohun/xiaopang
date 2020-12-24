@@ -9,4 +9,5 @@ test.haha();
 
 console.log(test.foo);
 console.log(NODE_ENV);
+console.log($);
 console.log(jQuery.fn.jquery);

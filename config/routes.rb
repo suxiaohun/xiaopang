@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  get 'chat',to: 'chat_rooms#index'
   get 'compress',to: 'tools#compress'
   get 'sense',to: 'tools#sense'
   post 'sense_encode',to: 'tools#sense_encode'

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>千羽阁</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <%= stylesheet_pack_tag 'chat_rooms', media: 'all', 'data-turbolinks-track': 'reload' %>
+</head>
+
+<body>
+<%= yield %>
+</body>
+<%= javascript_pack_tag 'chat', 'data-turbolinks-track': 'reload' %>
+
+</html>

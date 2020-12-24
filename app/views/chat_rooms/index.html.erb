@@ -1,0 +1,92 @@
+<style type="text/css">
+
+    #chatRoom {
+        width: 1024px;
+        /*display: inline-block;*/
+        margin: 0 auto;
+        /*text-align: center;*/
+        /*font-family: verdana, arial, helvetica, sans-serif;*/
+        /*font-size: 13px;*/
+        /*line-height: 18px;*/
+        border-left: 1px solid gray;
+        border-right: 1px solid gray;
+        box-sizing: border-box;
+    }
+
+
+    .std {
+        display: inline-block;
+        width: 200px;
+        height: 50px;
+        margin: 0 auto;
+        /*top: 100px;*/
+        /*position: relative;*/
+        /*background: yellowgreen;*/
+        text-align: center;
+        line-height: 50px
+    }
+
+    .log {
+        /*position: relative;*/
+        /*background: #f590c5;*/
+        /*width: 680px;*/
+        min-height: 300px;
+        height: 540px;
+        overflow: auto;
+        margin: 0 auto;
+        /*border-top: 1px solid black;*/
+        border-bottom: 1px solid darkgray;
+        padding-left: 10px;
+        padding-bottom: 20px;
+    }
+
+    .send_container {
+        height: 200px;
+        margin: 0 auto;
+        display: none;
+    }
+
+    .chat_span {
+        /*display: inline-block;*/
+        background: rgb(222, 224, 227);
+        border-radius: 5px;
+        padding: 6px 12px;
+        width: auto;
+    }
+
+    .drop {
+        margin: 5px 5px;
+    }
+
+    .drop + input + span {
+        display: inline-block;
+    }
+
+    .drop + input:checked + span {
+        display: none;
+    }
+
+    .SendDataArea {
+        width: 1016px;
+        max-width: 1016px;
+        min-width: 1016px;
+        height: 100px;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+    }
+</style>
+<div id="chatRoom">
+
+  <div id='LogContainer' class="log">
+
+  </div>
+
+  <div id='SendDataContainer' class="send_container">
+
+    <%= text_area_tag :DataToSend, "", :class => "SendDataArea", :placeholder => 'type something...' %>
+
+  </div>
+
+</div>
+

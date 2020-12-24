@@ -1,4 +1,4 @@
-FROM xiaopang.base:0.0.7
+FROM xiaopang.base:v0.0.9
 
 # throw errors if Gemfile has been modified since Gemfile.lock
 #RUN bundle config --global frozen 1

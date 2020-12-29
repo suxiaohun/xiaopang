@@ -7,6 +7,11 @@ Rails.application.routes.draw do
   get 'test_timeout', to: 'common#test_timeout'
   get 'test', to: 'common#test'
 
+  get 'skills', to: 'common#skills'
+  get 'items', to: 'common#items'
+  get 'groups', to: 'common#groups'
+
+
   match 'fates/auth', to: 'fates#auth', :via => [:get, :post]
 
   resources :fates

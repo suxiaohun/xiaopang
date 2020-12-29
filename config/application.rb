@@ -13,6 +13,12 @@ module Xiaopang
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
 
+    config.autoload_paths << "lib/fwk"
+    config.autoload_paths << "lib/utils"
+
+    config.after_initialize do
+
+    end
 
     config.generators do |g|
       #g.assets false

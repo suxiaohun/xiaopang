@@ -1,0 +1,23 @@
+<style type="text/css">
+  td {
+    border: 1px solid grey;
+    padding: 15px 15px;
+  }
+
+  table {
+    border-collapse: collapse;
+  }
+</style>
+
+<table>
+  <tr>
+    <% @items.each_with_index do |skill, i| %>
+      <% if i % 6 == 0 %>
+        </tr>
+        <tr>
+          <td><%= skill %></td>
+      <% else %>
+        <td><%= skill %></td>
+      <% end %>
+    <% end %>
+    </table>

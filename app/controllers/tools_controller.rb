@@ -1,6 +1,19 @@
 class ToolsController < ApplicationController
 
 
+  def img_to_base64
+
+    if request.post?
+      content = params[:img].read
+      @base64 = Base64.strict_encode64(content)
+    end
+
+  end
+
+  def base64_to_img
+
+  end
+
 
   def  compress
 

@@ -1,0 +1,24 @@
+<style>
+    textarea {
+        width: 100%;
+        border-radius: 5px;
+        margin-top: 20px;
+        border: 1px solid darkgrey;
+        resize: none;
+        min-height: 200px;
+    }
+</style>
+
+<%= form_tag('img_to_base64', multipart: true, remote: true) do %>
+  <div style="border: 1px solid darkgrey;min-width: 200px;min-height: 100px;text-align: center;vertical-align: middle">
+    <%= file_field_tag :img %>
+  </div>
+
+  <div style="text-align: center;margin: 10px">
+    <button type="submit" class="btn btn-success">图片转base64</button>
+
+  </div>
+<% end %>
+
+<%= text_area_tag :base64_data, nil, placeholder: 'base64 code' %>
+

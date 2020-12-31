@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+
+  get 'img_to_base64',to: 'tools#img_to_base64'
+  post 'img_to_base64',to: 'tools#img_to_base64'
+
   get 'chat',to: 'chat_rooms#index'
   get 'compress',to: 'tools#compress'
   get 'sense',to: 'tools#sense'

@@ -3,7 +3,7 @@
 /log/*
 /tmp/*
 !/log/.keep
-!/tmp/.keep
+!/tmp/pids/.keep
 
 /storage/*
 !/storage/.keep
@@ -11,8 +11,11 @@
 /test/*
 
 /public/assets/*
+!/public/assets/*.json
 
-/config/master.key
+/public/packs/*
+!/public/packs/*.json
+
 
 /node_modules
 

@@ -27,6 +27,7 @@ yarn-debug.log*
 .yarn-integrity
 .idea
 .generators
+.dockerignore
 
 config/database.yml
 config/property.yml

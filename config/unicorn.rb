@@ -16,8 +16,8 @@ preload_app true
 
 pid "#{Rails.root}/tmp/pids/unicorn.pid"
 
-stderr_path "#{Rails.root}/log/unicorn_err.log"
-stdout_path "#{Rails.root}/log/unicorn_out.log"
+# stderr_path "#{Rails.root}/log/unicorn_err.log"
+# stdout_path "#{Rails.root}/log/unicorn_out.log"
 
 before_exec do |_|
   ENV["BUNDLE_GEMFILE"] = File.join(Rails.root, 'Gemfile')

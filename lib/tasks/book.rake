@@ -43,10 +43,7 @@ namespace :book do
       end
     end
 
-
   end
-
-
 
   # rake book:rename path=/Users/crystal/Documents/books/小说/0510/ss
   desc "rename file in the spec dir"
@@ -110,6 +107,46 @@ namespace :book do
     end
   end
 
+  desc "concat files to one file"
+  task concat: :environment do
+    dir_path = ENV["path"]
+    unless dir_path.present?
+      puts "请指定路径:  rake book:concat path=/home/xiaopang/xxx".red
+      next
+    end
+    begin
+      FileUtils.cd(dir_path) do
+        puts "current dir: #{FileUtils.pwd}".green
+        FileUtils.rm_rf('backup')
+        sleep 2
+        FileUtils.mkdir_p('backup')
+        file_name = '1.txt'
+        begin
+          io = File.open("backup/#{file_name}", 'w')
+          concat_files(io)
+        rescue => e
+          puts e.message.red
+        ensure
+          io.close
+        end
+      end
+    rescue Errno::ENOENT
+      puts "无效的路径: #{ARGV[1]}".red
+    rescue => e
+      puts e.message.red
+    end
+  end
+
+  # 将目录下的所有txt文件，按名字排序后，合并成一个文件
+  def concat_files(io)
+    files = Dir.glob("*.[tT][xX][tT]").sort
+    files.each do |file_name|
+      puts file_name.green
+      File.open(file_name) do |input|
+        io.puts input.read
+      end
+    end
+  end
 
   # 将目录下的所有txt文件，全部遍历，转码成utf8，并生成一份新的utf8编码的文件
   def convert_book_encoding
@@ -117,7 +154,7 @@ namespace :book do
     count = 0
     FileUtils.rm_rf('backup')
     sleep 2
-    files = Dir.glob("*.[tT][xX][tT]")
+    files = Dir.glob("**/*.[tT][xX][tT]")
     files.each do |file_name|
       count += 1
       dirname = File.dirname("backup/#{file_name}")
@@ -129,22 +166,21 @@ namespace :book do
         next if File.zero?(file_name)
         File.open(file_name) do |input|
           content = input.read
-          # puts "...#{count}...#{file_name}...old_encode: #{content.encoding}   new_encode: #{content.force_encoding('GB18030').valid_encoding?}"
+
+          # 如果编码错乱，需要转成utf-8后，再copy
           if content.force_encoding('GB18030').valid_encoding?
             File.open("backup/#{file_name}", 'w') do |output|
               output.write(content.encode('UTF-8'))
             end
           end
-          #
-          # if content
-          #   if content.force_encoding('GB18030').valid_encoding?
-          #     File.open("backup/#{new_name}", 'w') do |output|
-          #       output.write(content.encode('UTF-8'))
-          #     end
-          #   end
-          # else
-          #   raise "empty content"
-          # end
+
+          # 如果文件编码本身就是utf-8，则copy一份即可
+          if content.force_encoding('UTF-8').valid_encoding?
+            File.open("backup/#{file_name}", 'w') do |output|
+              output.write(content)
+            end
+          end
+
         end
         puts "converting: #{file_name}".green
       rescue
@@ -156,7 +192,6 @@ namespace :book do
     end
     puts "........共计#{count}本"
   end
-
 
   # 验证转码后的文件是否正确转成了utf8
   def verify

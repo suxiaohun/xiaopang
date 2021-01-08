@@ -16,6 +16,10 @@
 /public/packs/*
 !/public/packs/*.json
 
+app/assets/*
+!/app/assets/config/manifest.js
+!/app/assets/images/.keep
+!/app/assets/videos/.keep
 
 /node_modules
 

@@ -35,7 +35,8 @@ config/property.yml
 app/assets/videos
 .browserslistrc
 
-lib/utils/books
+lib/utils/books/*
+!lib/utils/books/.keep
 
 
 

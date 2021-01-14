@@ -4,7 +4,8 @@ class BooksController < ApplicationController
   # GET /books
   # GET /books.json
   def index
-    @books = Book.all.order(created_at: :desc)
+    ids = Book.pluck(:id)
+    @books = Book.find(ids.sample(10))
   end
 
   def category

@@ -6,7 +6,7 @@
         <%= link_to book.display_name, book %>
       </h2>
       <div class="post-card-info">
-        <span class="date"><%= book.tag %></span>
+        <span class="date"><%= book.author ? book.author.name + '-' : nil %><%= book.tag %></span>
         <span class="comments">
 
         <a href="#">评论</a>
@@ -16,7 +16,7 @@
       <div class="post-card-excerpt">
 <!--        <h4><%#= book.display_name %></h4>-->
         <ul>
-          <li><%= book.pre_content %></li>
+          <li><%= simple_format book.pre_content %></li>
         </ul>
       </div>
 

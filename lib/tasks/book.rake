@@ -1,17 +1,60 @@
 require 'optparse'
 namespace :book do
   def get_pre_content(path)
-    pre_content = '......'
+    pre_content = ''
     begin
       File.open(path) do |io|
-        pre_content = io.gets.chomp
-        10.times { |x| pre_content += io.gets.chomp }
+        10.times do
+          _temp_content = io.gets
+          if _temp_content.size > 300
+            _temp_content = _temp_content[0, 300]
+            break
+          end
+          pre_content += _temp_content
+        end
       end
       puts "....init book preview content: #{path}".green
     rescue => e
       puts "#{e.message}".red
     end
     pre_content
+  end
+
+  def init_book_list(category)
+    path_prefix = "lib/utils/books/"
+    path = path_prefix + category + '.yml'
+
+    FileUtils.cd(path_prefix) do
+      FileUtils.rm Dir.glob('*.yml')
+    end
+
+    unless File.exist? path
+      origin_path = BOOK_PATH_PREFIX + category + '/'
+      File.open(path, 'w') do |io|
+        FileUtils.cd(origin_path) do
+          files = Dir.glob("*.[tT][xX][tT]")
+          files.each do |file_name|
+            _zh_name = file_name.split('.')[0]
+            _en_name = Pinyin.t(_zh_name, splitter: '')
+            io.puts _en_name + ':'
+            io.puts "  name: " + _zh_name
+          end
+        end
+      end
+    end
+
+    books = YAML.load_file(path).deep_symbolize_keys
+    books.each do |_, v|
+      book = Book.new
+      book.name = v[:name]
+      book.display_name = v[:name]
+      book.author = Author.find_or_create_by!(name: v[:author] || '未知')
+      book.category = Category.find_or_create_by!(name: category)
+      book.tag = v[:tag]
+      book.path = BOOK_PATH_PREFIX + category + '/' + book.name + '.txt'
+      book.save!
+      puts "....create book: #{v[:name]}".green
+    end
   end
 
   desc "init the books"
@@ -24,18 +67,18 @@ namespace :book do
 
     if flag1
       Book.destroy_all
-      books = YAML.load_file('lib/utils/files/book1.yml').deep_symbolize_keys
-      books.each do |k, v|
-        book = Book.new
-        book.name = v[:name]
-        book.display_name = v[:name]
-        book.author = Author.find_or_create_by!(name: v[:author])
-        book.category = Category.find_or_create_by!(name: v[:category])
-        book.tag = v[:tag]
-        book.path = BOOK_PATH_PREFIX + book.name + '.txt'
-        book.save!
-        puts "....create book: #{v[:name]}".green
-      end
+
+      init_book_list('修真')
+      init_book_list('中华奇书')
+      init_book_list('卫斯理')
+      init_book_list('男主玄幻')
+      init_book_list('男主网游')
+      init_book_list('男主穿越')
+      init_book_list('女主玄幻')
+      init_book_list('女主网游')
+      init_book_list('女主穿越')
+      init_book_list('魔兽世界')
+      init_book_list('魔法')
 
       Book.all.each do |book|
         book.pre_content = get_pre_content(book.path)

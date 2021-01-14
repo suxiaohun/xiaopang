@@ -11,6 +11,7 @@ gem 'mysql2', '~> 0.5.3', '>= 0.4.4'
 gem 'puma', '~> 4.1'
 
 gem 'recursive-open-struct'
+gem 'chinese_pinyin'
 
 gem 'redis'
 gem 'redis-namespace'

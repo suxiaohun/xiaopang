@@ -7,7 +7,7 @@
           <%= link_to book.display_name, book %>
         </h2>
         <div class="post-card-info">
-          <span class="date"><%= book.tag %></span>
+          <span class="date"><%= book.author ? book.author.name + '-' : nil %><%= book.tag %></span>
           <span class="comments">
 
         <a href="#">评论</a>
@@ -21,7 +21,7 @@
           </ul>
         </div>
 
-        <% if book.pre_content == '......'%>
+        <% if book.pre_content == '......' %>
           <span class="post-card-error">书籍丢失，联系管理员.</span>
         <% else %>
           <%#= link_to 'download', {:action => 'download', :id => book.id}, :class => 'post-card-download' %>

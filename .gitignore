@@ -18,7 +18,8 @@
 /config/master.key
 
 /public/packs
-/public/txt
+/public/txt1
+/public/txt2
 /public/books
 /public/packs-test
 /node_modules
@@ -33,5 +34,8 @@ config/database.yml
 config/property.yml
 app/assets/videos
 .browserslistrc
+
+lib/utils/books
+
 
 

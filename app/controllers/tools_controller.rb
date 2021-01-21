@@ -1,6 +1,5 @@
 class ToolsController < ApplicationController
 
-
   def img_to_base64
 
     if request.post?
@@ -14,8 +13,34 @@ class ToolsController < ApplicationController
 
   end
 
+  def sign
+    if request.post?
+      keys = params[:keys]
+      values = params[:values]
+      sign_str = []
+      keys.each_with_index do |k, i|
+        sign_str << "#{k}=#{values[i]}" if k.present? && values[i].present?
+      end
+      @sign_str = sign_str.join('&')
 
-  def  compress
+      case params[:hex_type]
+      when 'md5'
+        @sign = Digest::MD5.hexdigest(@sign_str)
+      when 'sha1'
+        @sign = Digest::SHA1.hexdigest(@sign_str)
+      when 'sha2','sha256'
+        @sign = Digest::SHA2.hexdigest(@sign_str)
+      else
+        @sign = 'unsupported hex type'
+      end
+    end
+  end
+
+  def sha1
+
+  end
+
+  def compress
 
   end
 
@@ -27,8 +52,8 @@ class ToolsController < ApplicationController
     api_key = params[:api_key].blank? ? '5f3c59ad4271425cac8c27e24b6b4468' : params[:api_key]
     api_secret = params[:api_secret].blank? ? '7ce86784b8744975808b10d5c7c17801' : params[:api_secret]
     client_source = params[:client_source].blank? ? 'ice' : params[:client_source]
-    timestamp = params[:timestamp].blank? ? (Time.now.to_f*1000).to_i.to_s : params[:timestamp]
-    nonce = params[:nonce].blank? ? SecureRandom.uuid.gsub("-","") : params[:nonce]
+    timestamp = params[:timestamp].blank? ? (Time.now.to_f * 1000).to_i.to_s : params[:timestamp]
+    nonce = params[:nonce].blank? ? SecureRandom.uuid.gsub("-", "") : params[:nonce]
     body = params[:body].blank? ? '' : (params[:body] || '')
 
     md5_body = md5_body(body)
@@ -46,13 +71,11 @@ class ToolsController < ApplicationController
     @data[:sign] = valid_sign
     @data[:data] = data
 
-
     @str = ""
 
-    @data.each do |kk,vv|
-      @str << "#{kk.to_s.ljust(20,'-')}  #{vv}<br>"
+    @data.each do |kk, vv|
+      @str << "#{kk.to_s.ljust(20, '-')}  #{vv}<br>"
     end
-
 
     puts @str
 

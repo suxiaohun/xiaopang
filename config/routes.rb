@@ -43,6 +43,7 @@ Rails.application.routes.draw do
 
   get 'colors',to: 'tools#colors'
 
+  match 'sign', to: 'tools#sign', :via => [:get, :post]
   get 'unicode', to: 'tools#unicode'
   get 'json_format', to: 'tools#json_format'
   get 'mobile_area', to: 'tools#mobile_area'

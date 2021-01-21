@@ -1,0 +1,26 @@
+<style type="text/css">
+    td[class='value'] > input {
+        min-width: 300px;
+    }
+</style>
+
+<div style="position: relative;top: 100px;">
+  <%= form_tag('/sign', method: 'post', remote: true) do %>
+    <%= token_tag %>
+    <table>
+      <% 5.times do |i| %>
+        <tr>
+          <td><%= text_field_tag 'keys[]', nil, placeholder: 'key' %></td>
+          <td class="value"><%= text_field_tag 'values[]', nil, placeholder: 'values' %></td>
+        </tr>
+      <% end %>
+    </table>
+    <hr>
+    <%= select_tag :hex_type, options_for_select(['md5', 'sha1', 'sha2', 'sha256'], 'md5'), class: 'btn btn-info' %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <%= submit_tag 'generate_sign', class: 'btn btn-primary' %>
+  <% end %>
+
+  <hr>
+  <div id="sign_str" style="position: relative;top: 50px;color: dodgerblue;font-size: 24px;max-width: 1024px;word-break: break-all"></div>
+  <div id="sign" style="position: relative;top: 50px;color: green;font-weight: bolder;font-size: 40px;word-break: break-all"></div>
+</div>

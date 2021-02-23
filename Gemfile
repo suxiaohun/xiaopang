@@ -63,6 +63,9 @@ gem 'elasticsearch-rails'
 
 gem 'kaminari'
 
+gem 'nsq-ruby'
+
+
 #gem 'prometheus_exporter'
 
 #gem 'raindrops'

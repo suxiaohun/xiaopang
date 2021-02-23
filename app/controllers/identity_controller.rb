@@ -31,7 +31,45 @@ class IdentityController < ApplicationController
   end
 
 
+  def image_verification_nsq
+    request_id = SecureRandom.uuid.gsub('-', '')
+    binary_a = IO.binread("test/fixtures/files/images/face_01.jpg")
+    binary_b = IO.binread("test/fixtures/files/images/face_07.jpg")
+    base64_a = Base64.strict_encode64(binary_a)
+    base64_b = Base64.strict_encode64(binary_b)
+
+    args = {
+      request_id: request_id,
+      blob_a: base64_a,
+      blob_b: base64_b,
+      check_quality: true,
+      auto_rotate: true
+    }
+
+    queue = 'face_verify'
+    puts request_id, queue
+
+    result = nsq_rpc(queue, args)
+    puts result
+
+    resp = {
+      request_id: request_id,
+      code: result['code'],
+      score: result['score'],
+      message: result['message'] || 'ok'
+    }
+
+    render json: resp
+  end
+
+
   private
+
+  def nsq_rpc(queue_name,args={})
+    NSQ_PRODUCER.write_to_topic(queue_name,args.to_json)
+    _, resp = FACEPRO_REDIS.brpop(args[:request_id], SIDEKIQ_REDIS_POLL_TIMEOUT)
+    JSON.parse(resp)
+  end
 
   def amqp_rpc(queue_name, args = {})
     channel = RabbitMQ.channel

@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
 
+  resources :users
   post 'identity/image_verification'
   post 'identity/image_verification_nsq'
 

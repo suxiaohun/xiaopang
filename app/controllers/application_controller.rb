@@ -28,10 +28,7 @@ class ApplicationController < ActionController::Base
         key_id: current_user.uuid,
         limit: current_user.rate_limit_limit,
         window: current_user.rate_limit_window,
-        daily_limit: current_user.daily_limit,
-        idnumber_limit: current_user.idnumber_rate_limit_limit,
-        idnumber_window: current_user.idnumber_rate_limit_window,
-        idnumber_total_limit: current_user.idnumber_total_limit
+        daily_limit: current_user.daily_limit
       },
       rate_limit_result: {
         status: :error

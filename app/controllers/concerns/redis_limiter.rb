@@ -8,7 +8,6 @@ module StFinanceCloud
       init_script
     end
 
-    # type in ['rate_limit', 'idnumber_limit']
     def limit(uuid, rate_limit, time_window, daily_limit, type='rate_limit')
       unless ['rate_limit', 'idnumber_limit'].include?(type)
         raise 'RedisLimiter limit params type error'
@@ -31,10 +30,8 @@ module StFinanceCloud
       remain_window = rate_limit - count_window
 
       remain_daily = if daily_limit <= 0
-                       # no daily restriction
                        2147483647
                      elsif count_daily < 0
-                       # exceeded
                        -1
                      else
                        daily_limit-count_daily
@@ -45,8 +42,6 @@ module StFinanceCloud
 
     BACKOFFS = [0, 0.1, 0.2]
     def rate_limit_count!(key_count, time_window, key_today, daily_limit)
-      # rpc with redis
-      # retry 3 times at most
       3.times do |i|
         begin
           return @redis.evalsha(@rate_limit_script_sha,

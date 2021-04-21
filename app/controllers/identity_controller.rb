@@ -68,6 +68,7 @@ class IdentityController < ApplicationController
   def nsq_rpc(queue_name,args={})
     NSQ_PRODUCER.write_to_topic(queue_name,args.to_json)
     _, resp = FACEPRO_REDIS.brpop(args[:request_id], SIDEKIQ_REDIS_POLL_TIMEOUT)
+
     JSON.parse(resp)
   end
 

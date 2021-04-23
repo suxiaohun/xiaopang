@@ -1,8 +1,10 @@
 require("@rails/ujs").start();
-// require("jquery");
 
-import "bootstrap"
-import "bootstrap-select"
+window.jQuery = window.$=require('jquery')
+import 'bootstrap'
+import "bootstrap/scss/bootstrap.scss";
 
 console.log(NODE_ENV);
+console.log(BOOTSTRAP_VERSION);
+console.log($.fn.jquery);
 console.log(jQuery.fn.jquery);

@@ -4,6 +4,7 @@ Rails.application.configure do
   # Code is not reloaded between requests.
   config.cache_classes = true
 
+  config.hosts << "xqianyu.com"
   config.hosts << "www.xqianyu.com"
   config.hosts << "localhost"
   # config.hosts.clear

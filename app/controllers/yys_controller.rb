@@ -1,10 +1,50 @@
 class YysController < ApplicationController
   before_action :require_auth, :except => [:auth, :all_cookies]
 
-
   def index
     config = HashWithIndifferentAccess.new(YAML.load(File.read(File.expand_path('../../../config/yys/yys.yml', __FILE__)))).deep_symbolize_keys
     @max_count = config[:max_pick_count] || 1000
+  end
+
+  def manage
+    @summon = YysSummon.first
+    @summon_modes = YysSummonMode.all
+    ss1 = YysShiShen.sp.last(2)
+    ss2 = YysShiShen.ssr.last(2)
+    @shishens = ss1 + ss2
+    @patch = YysPatch.last
+  end
+
+  def update_manage
+    summon = YysSummon.first
+    summon.mode_id = params[:mode_id]
+    summon.sid = params[:sid]
+    summon.up_count = params[:up_count]
+    summon.save!
+  end
+
+  def add_ss
+    ss = YysShiShen.new
+    ss.sid = params[:sid]
+    ss.name = params[:sname]
+    ss.kind = params[:kind]
+    ss.save!
+  end
+
+  def add_region
+    ss = YysRegion.new
+    ss.name = params[:name]
+    ss.mode = params[:mode]
+    ss.key = params[:key]
+    ss.save!
+  end
+
+  def add_patch
+    p = YysPatch.new
+    p.version = params[:version]
+    p.title = params[:title]
+    p.content = params[:content]
+    p.save!
   end
 
   def guess
@@ -36,7 +76,6 @@ class YysController < ApplicationController
       v[:kind] = 'red'
       v[:die] = false
 
-
       attr.each do |ar|
         v[ar] = v[ar].to_i
       end
@@ -62,7 +101,6 @@ class YysController < ApplicationController
       v[:mname] = YysMitama.find_by_mid(v[:mid]).try(:name)
       v[:kind] = 'blue'
       v[:die] = false
-
 
       attr.each do |ar|
         v[ar] = v[ar].to_i
@@ -116,7 +154,6 @@ class YysController < ApplicationController
       get_skill(pick)
 
       get_damage(pick)
-
 
       @result["round-#{i}"] = {}
       @result["round-#{i}"][:obj] = pick
@@ -172,15 +209,11 @@ class YysController < ApplicationController
     obj[:round_begin_point] = ''
     obj[:round_end_point] = ''
 
-
-
   end
-
 
   def ahead_attr(type, sids = [], mids = [])
     ahead_armor_sids = ['280'] # 先机防御：辉夜姬
     ahead_speed_sids = ['326', '330'] # 先机速度：sp驴、不知火
-
 
     armor_sids = sids & ahead_armor_sids
     speed_sids = sids & ahead_speed_sids
@@ -207,7 +240,6 @@ class YysController < ApplicationController
     if (sids & ahead_point_sids).present?
       init_point += 4
     end
-
 
     case type
     when 'speed'
@@ -246,7 +278,6 @@ class YysController < ApplicationController
     min_self_damage = obj[:damage] * (1 + obj[:damage_bound])
     max_self_damage = obj[:damage] * (1 + obj[:damage_bound]) * obj[:crit_damage] / 100
 
-
     # 技能加成
     skill_rate = 1
 
@@ -256,10 +287,8 @@ class YysController < ApplicationController
     # 友方伤害加成
     damage_rate = 1
 
-
     # 浮动伤害
     float_rate = [1.01, 0.99].sample
-
 
     targets.each do |tt|
       tt = tt.deep_symbolize_keys
@@ -290,33 +319,38 @@ class YysController < ApplicationController
     obj[:actual_damage] = damage
   end
 
-
   def summon
     number = params[:number].to_i
     number = 2000 if number > 2000
-    mode = params[:mode] ? true : false
-    spec_up = params[:hd]
+    all = params[:mode] ? true : false # 是否全图
 
-    @show_cartoon = params[:cartoon] ? true : false
+    @show_cartoon = params[:cartoon] ? true : false # 是否展示抽卡动画
 
-    if spec_up == 'SP'
-      up_count = 3
-      @result, @summon_count = summon_sp(number, mode, up_count)
-    elsif spec_up == 'SSR'
-      up_count = 3
-      @result, @summon_count = summon_ssr(number, mode, up_count)
-    elsif spec_up == 'SJ'
-      up_count = 3
-      @result, @summon_count = summon_sj(number, mode, up_count)
+    summon = YysSummon.first
+    summon_mode = summon.yys_summon_mode
+
+    if summon_mode.code == 'SP'
+      @result, @summon_count = summon_sp(number, all, summon.up_count)
+    elsif summon_mode.code == 'SSR'
+      @result, @summon_count = summon_ssr(number, all, summon.up_count)
+    elsif summon_mode.code == 'SJ'
+      @result, @summon_count = summon_sj(number, all, summon.up_count)
     else
       up_count = 0
       summon_common(number, up_count)
     end
+
+    puts ".....1....."
+    puts summon.as_json
+    puts summon_mode.as_json
+    puts @result
+    puts ".....2....."
+
   end
 
   def summon_common(number, up_count)
-    ssrs = YysShiShen.where(kind: 'SSR', form: 'origin')
-    sps = YysShiShen.where(kind: 'SP', form: 'origin')
+    ssrs = YysShiShen.ssr
+    sps = YysShiShen.sp
 
     result = {}
 
@@ -334,7 +368,8 @@ class YysController < ApplicationController
 
         if seed1 < (pick_rate / 1.25) # ssr
           ss = ssrs[rand ssrs.size]
-        else # sp
+        else
+          # sp
           ss = sps[rand(sps.size)]
         end
         result[num + 1] = {}
@@ -370,13 +405,12 @@ class YysController < ApplicationController
   end
 
   def summon_ssr(number, mode, up_count)
-
-    ssrs = YysShiShen.where(kind: 'SSR', form: 'origin').where.not(sid: SPEC_SID)
-    sps = YysShiShen.where(kind: 'SP', form: 'origin')
+    spec_ss = YysShiShen.spec.last
+    ssrs = YysShiShen.ssr.where.not(sid: spec_ss.sid)
+    sps = YysShiShen.sp
 
     result = {}
     spec_flag = true
-    spec_ss = YysShiShen.find_by sid: SPEC_SID
 
     number.times do |num|
       if spec_flag && mode && num == 699
@@ -419,7 +453,8 @@ class YysController < ApplicationController
 
         if seed1 < (pick_rate / 1.25) # ssr
           ss = ssrs[rand ssrs.size]
-        else # sp
+        else
+          # sp
           ss = sps[rand(sps.size)]
         end
         result[num + 1] = {}
@@ -430,11 +465,11 @@ class YysController < ApplicationController
         result[num + 1][:cartoon_sp] = ss.cartoon_sp
       end
 
-      if num == 519
-        result[num + 1] ||= {}
-        result[num + 1][:name] ||= ''
-        result[num + 1][:name] = result[num + 1][:name] + "<span style='color:#111de0;font-weight:bold;'>【月之符咒】</span>"
-      end
+      # if num == 519
+      #   result[num + 1] ||= {}
+      #   result[num + 1][:name] ||= ''
+      #   result[num + 1][:name] = result[num + 1][:name] + "<span style='color:#111de0;font-weight:bold;'>【月之符咒】</span>"
+      # end
     end
 
     # 同时判定是否sp版本
@@ -453,7 +488,6 @@ class YysController < ApplicationController
       end
     end
 
-
     set_total_count
     summon_count = {}
     summon_count[:total_count] = RATE_REDIS.llen('total_count')
@@ -461,12 +495,14 @@ class YysController < ApplicationController
   end
 
   def summon_sp(number, mode, up_count)
-    ssrs = YysShiShen.where(kind: 'SSR', form: 'origin')
-    sps = YysShiShen.where(kind: 'SP', form: 'origin').where.not(sid: SPEC_SID)
+
+    spec_ss = YysShiShen.spec.last
+
+    ssrs = YysShiShen.ssr
+    sps = YysShiShen.sp.where.not(sid: spec_ss.sid)
 
     result = {}
     spec_flag = true
-    spec_ss = YysShiShen.find_by sid: SPEC_SID
 
     number.times do |num|
       if spec_flag && mode && num == 699
@@ -509,7 +545,8 @@ class YysController < ApplicationController
 
         if seed1 < (pick_rate / 1.25) # ssr
           ss = ssrs[rand ssrs.size]
-        else # sp
+        else
+          # sp
           ss = sps[rand(sps.size)]
         end
         result[num + 1] = {}
@@ -554,8 +591,8 @@ class YysController < ApplicationController
     mode_ssrs = ShiShen.where(kind: 'origin', mode: 'SSR').pluck(:sid) - (Card.find_by(nick_name: cookies[:nick_name]).try(:sids) || [])
     mode = true if mode_ssrs.count == 1
 
-    ssrs = ShiShen.where(mode: 'SSR', kind: 'origin')
-    sps = ShiShen.where(mode: 'SP', kind: 'origin')
+    ssrs = ShiShen.ssr
+    sps = ShiShen.sp
 
     result = {}
 
@@ -612,7 +649,8 @@ class YysController < ApplicationController
 
         if seed1 < (pick_rate / 1.25) # ssr
           ss = ssrs[rand ssrs.size]
-        else # sp
+        else
+          # sp
           ss = sps[rand(sps.size)]
         end
         result[num + 1] = {}
@@ -657,12 +695,11 @@ class YysController < ApplicationController
     return result, summon_count
   end
 
-
   def auth
     if request.post?
 
       region_name = YysRegion.where(key: params[:region]).first.try(:name) || 'UNKNOWN'
-      cookies[:yys_nick_name] = {value: "#{region_name}-#{params[:name]}", expires: 30.days}
+      cookies[:yys_nick_name] = { value: "#{region_name}-#{params[:name]}", expires: 30.days }
       flash[:yys_nick_name] = params[:name]
 
       # 将ip与nick_name绑定，如果已经存在，则忽略
@@ -684,7 +721,6 @@ class YysController < ApplicationController
   def set_total_count
     RATE_REDIS.rpush('total_count', 1)
   end
-
 
   def all_sp_rate(num)
     if num >= 500
@@ -794,7 +830,6 @@ class YysController < ApplicationController
     end
   end
 
-
   def get_spec_rate(num, type, mode)
     # 全图、SP
     if mode && type == 'SP'
@@ -814,7 +849,6 @@ class YysController < ApplicationController
     end
   end
 
-
   def require_auth
 
     if cookies[:yys_nick_name]
@@ -830,6 +864,5 @@ class YysController < ApplicationController
       redirect_to "/yys/auth?redirect_controller=#{params[:controller]}&redirect_action=#{params[:action]}"
     end
   end
-
 
 end

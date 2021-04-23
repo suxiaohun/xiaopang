@@ -16,7 +16,6 @@ module YysHelper
     list
   end
 
-
   def rand_profile(type)
     case type
     when 'damage'
@@ -58,14 +57,12 @@ module YysHelper
 
   def round_pick(n)
 
-
     ss = 221, 203, 187, 186, 165, 143, 135, 132, 128, 121
 
     _hash = {}
     ss.each_with_index do |s, i|
       _hash[s] = ss[0] * 1.00 / s
     end
-
 
     n.times do |i|
 
@@ -74,7 +71,6 @@ module YysHelper
       key = _hash.key min
 
       puts "round-#{i}: #{key}"
-
 
       fix_step = 0
 
@@ -85,11 +81,9 @@ module YysHelper
 
   end
 
-
   def last_patch
     YysPatch.last
   end
-
 
   def patch_list
     YysPatch.order(id: :desc).pluck(:version, :content)
@@ -99,8 +93,12 @@ module YysHelper
     YysRegion.order(:id).pluck(:name, :key)
   end
 
+  def region_mode_drop_list
+    YysRegion.all.pluck(:mode).uniq
+  end
+
   def user_shi_shen_atlas
-    spec_shi_shen_id = SPEC_SID
+    spec_shi_shen_id = YysShiShen.spec.last.try(:id)
 
     list = []
     user_atlas = YysAtlas.find_by(nick_name: cookies[:yys_nick_name]).try(:sids) || []
@@ -121,9 +119,5 @@ module YysHelper
       end
     end
   end
-
-
-
-
 
 end

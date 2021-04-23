@@ -1,0 +1,2 @@
+class YysSummonMode < ApplicationRecord
+end

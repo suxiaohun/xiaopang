@@ -12,6 +12,8 @@ class YysShiShen < ApplicationRecord
     end
   end
 
-
+  scope :spec, -> { where("form = 'ORIGIN' and (kind ='SP' or kind ='SSR')") }
+  scope :sp, -> { where("form = 'ORIGIN' and kind ='SP'") }
+  scope :ssr, -> { where("form = 'ORIGIN' and kind ='SSR'") }
 
 end

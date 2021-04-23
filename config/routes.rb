@@ -29,6 +29,11 @@ Rails.application.routes.draw do
   match 'yys/auth', to: 'yys#auth', :via => [:get, :post]
   get 'yys/rate', to: 'yys#rate'
   post 'yys/summon', to: 'yys#summon'
+  get 'yys/manage', to: 'yys#manage'
+  post 'yys/update_manage', to: 'yys#update_manage'
+  post 'yys/add_ss', to: 'yys#add_ss'
+  post 'yys/add_patch', to: 'yys#add_patch'
+  post 'yys/add_region', to: 'yys#add_region'
 
 
 
@@ -43,12 +48,14 @@ Rails.application.routes.draw do
 
   get 'colors',to: 'tools#colors'
 
+  match 'json', to: 'tools#json', :via => [:get, :post]
   match 'sign', to: 'tools#sign', :via => [:get, :post]
   get 'unicode', to: 'tools#unicode'
   get 'json_format', to: 'tools#json_format'
   get 'mobile_area', to: 'tools#mobile_area'
   get 'get_mobile_area', to: 'tools#get_mobile_area'
   post 'comment_save', to: 'tools#comment_save'
+  get '/v2/pause/manifests/3.1', to: 'tools#mirror'
 
 
 

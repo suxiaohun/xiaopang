@@ -743,49 +743,6 @@ so(function () {
         so('#messageBox,#messageBox.layui-hide').addClass('layui-hide');
     });
 
-
-
-
-
-    /**
-     if(!isMobile){
-        setTimeout(function () {
-            var as = document.querySelectorAll('.adsbygoogle'),al=as.length;
-            as.forEach(function(a,b){
-                if(a.innerHTML==''){
-                    al-=1;
-                    if(al===0){
-                        layer.open({
-                            type: 1
-                            ,title: '检测到您启用广告屏蔽插件，请关闭'
-                            ,closeBtn: false
-                            ,area: ['300px', '275px']
-                            ,shade: false
-                            ,offset: 'rb'
-                            ,id: 'gg_tips'
-                            ,moveType: 1
-                            ,resize: false
-                            ,content: ['<div style="padding: 15px;  background-color: #e2e2e2;">'
-                                ,'<p class="pt2">1.本站大部分工具采用Javascript实现，屏蔽广告后部分功能被误杀，造成功能影响。</p>'
-                                ,'<p class="pt2">2.本站广告都是合理显示，不会对工具有任何影响和欺骗性点击。</p>'
-                                ,'<p class="pt2">3.随着用户量增加，成本日益增加，唯一的收入就是广告，本站用户75%以上都开启了广告屏蔽，如果您还屏蔽，确实无法存活下去。</p>'
-                                ,'<p class="pt2 yellow"><strong>跪求对本站增加白名单，解除广告屏蔽</strong></p>'
-                                ,'</div>'].join('')
-                        });
-                        var gbox =  $('#gg_tips').p();
-                        var left = gbox[0].style.left.replace('px','');
-                        gbox.animate({left:parseInt(left) - 80 +'px'},"slow");
-                        var  style = document.createElement("style");
-                        style.innerHTML = ".fly-hezuo:before{content:'你使用了广告屏蔽插件，部分功能可能无法使用。' !important}";
-                        $('head').append(style);
-                    }
-                }
-            });
-        },4e3);
-    }
-     **/
-
-
 });
 (function (so, f, u) {
     if (document.title.indexOf("404—") === -1 && u.indexOf(".shtml") === -1) {
@@ -799,4 +756,4 @@ so(function () {
 
 })(so, so.from(), so.nowUrl());
 
-
+export {}

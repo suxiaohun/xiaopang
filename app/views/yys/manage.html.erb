@@ -1,0 +1,205 @@
+<style type="text/css">
+    table,th, tr, td {
+        border: 1px solid grey;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+
+    #patchModal input {
+        min-width: 400px;
+    }
+
+    ul li {
+        margin-bottom: 10px;
+    }
+
+</style>
+
+<div style="width: 600px;margin: 0 auto;">
+  <ul>
+    <li>
+      <button type="button" data-toggle="modal" data-target="#ssModal">添加式神</button>
+    </li>
+    <li>
+      <button type="button" data-toggle="modal" data-target="#regionModal">添加大区</button>
+    </li>
+    <li>
+      <button type="button" data-toggle="modal" data-target="#patchModal">添加patch</button>
+    </li>
+    <li>
+      <table>
+        <thead>
+        <tr>
+          <th>召唤模式</th>
+          <th>up次数</th>
+          <th>式神SID</th>
+          <th>式神名称</th>
+          <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><%= @summon.yys_summon_mode.name %></td>
+          <td><%= @summon.up_count %></td>
+          <td><%= @summon.sid %></td>
+          <td><%= @summon.yys_shi_shen.name %></td>
+          <td>
+            <button type="button" style="padding: 5px 5px;display: inline" data-toggle="modal" data-target="#manageModal">
+              edit
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </li>
+  </ul>
+</div>
+
+
+
+<div class="modal" id="regionModal" tabindex="-1" role="dialog" data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">添加region</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_tag(yys_add_region_path, method: :post, remote: true) do %>
+          <table width="100%">
+            <tr>
+              <td>mode:</td>
+              <td><%= select_tag :mode, options_for_select(region_mode_drop_list) %><br></td>
+            </tr>
+            <tr>
+              <td>name:</td>
+              <td><%= text_field_tag :name %></td>
+            </tr>
+            <tr>
+              <td>key:</td>
+              <td><%= text_field_tag :key,nil,placeholder: 'zhuiyuezhutu' %></td>
+            </tr>
+          </table>
+
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">submit</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        <% end %>
+        </div>
+  </div>
+</div>
+
+<div class="modal" id="patchModal" tabindex="-1" role="dialog" data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">添加patch</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_tag(yys_add_patch_path, method: :post, remote: true) do %>
+          <table width="100%">
+            <tr>
+              <td>version:</td>
+              <td><%= text_field_tag :version, @patch.try(:version) %></td>
+            </tr>
+            <tr>
+              <td>title:</td>
+              <td><%= text_field_tag :title, @patch.try(:title) %></td>
+            </tr>
+            <tr>
+              <td>content:</td>
+              <td><%= text_field_tag :content, @patch.try(:content) %></td>
+            </tr>
+          </table>
+
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">submit</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        <% end %>
+        </div>
+  </div>
+</div>
+
+
+
+<div class="modal" id="ssModal" tabindex="-1" role="dialog" data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">添加式神</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_tag(yys_add_ss_path, method: :post, remote: true) do %>
+          <table width="100%">
+            <tr>
+              <td>式神SID:</td>
+              <td><%= number_field_tag :sid, 363 %></td>
+            </tr>
+            <tr>
+              <td>式神名称:</td>
+              <td><%= text_field_tag :sname %></td>
+            </tr>
+            <tr>
+              <td>类型:</td>
+              <td><%= select_tag "kind", options_for_select(%w[SSR SP], "SSR") %></td>
+            </tr>
+          </table>
+
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">submit</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        <% end %>
+        </div>
+  </div>
+</div>
+
+
+<div class="modal" id="manageModal" tabindex="-1" role="dialog" data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">召唤配置</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_tag(yys_update_manage_path, method: :post, remote: true) do %>
+          <table width="100%">
+            <tr>
+              <td>召唤模式:</td>
+              <td><%= select_tag "mode_id", options_from_collection_for_select(@summon_modes, "id", "name") %></td>
+            </tr>
+            <tr>
+              <td>当期式神:</td>
+              <td><%= select_tag "sid", options_from_collection_for_select(@shishens, "sid", "name") %></td>
+            </tr>
+            <tr>
+              <td>up次数:</td>
+              <td><%= number_field_tag :up_count, 3 %></td>
+            </tr>
+          </table>
+
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">submit</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        <% end %>
+        </div>
+  </div>
+</div>

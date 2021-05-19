@@ -145,7 +145,9 @@ GEM
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     method_source (1.0.0)
-    mimemagic (0.3.5)
+    mimemagic (0.3.10)
+      nokogiri (~> 1)
+      rake
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.14.2)
@@ -156,14 +158,14 @@ GEM
     net-scp (3.0.0)
       net-ssh (>= 2.6.5, < 7.0.0)
     net-ssh (6.1.0)
-    nio4r (2.5.4)
+    nio4r (2.5.7)
     nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
     public_suffix (4.0.6)
-    puma (4.3.7)
+    puma (4.3.8)
       nio4r (~> 2.0)
     rack (2.2.3)
     rack-proxy (0.6.5)
@@ -284,7 +286,7 @@ DEPENDENCIES
   listen (>= 3.0.5, < 3.2)
   mysql2 (~> 0.5.3, >= 0.4.4)
   pry
-  puma (~> 4.1)
+  puma (~> 4.3)
   rails (~> 6.0.2, >= 6.0.2.3)
   recursive-open-struct
   redis

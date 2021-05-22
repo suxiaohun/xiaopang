@@ -6,6 +6,11 @@ class YysController < ApplicationController
     @max_count = config[:max_pick_count] || 1000
   end
 
+  def maintenance
+    msg="In order to bring you a better gaming experience, the server will be shut down for maintenance from 2:00 - 5:00 EST on Apr 22nd. If it is not completed on time, the opening time will be postponed. For details regarding the update, please check the update announcement which will be posted later or the game login page after the maintenance."
+  end
+
+
   def manage
     @summon = YysSummon.first
     @summon_modes = YysSummonMode.all

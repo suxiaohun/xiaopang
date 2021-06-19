@@ -7,7 +7,18 @@ class YysController < ApplicationController
   end
 
   def maintenance
-    msg="In order to bring you a better gaming experience, the server will be shut down for maintenance from 2:00 - 5:00 EST on Apr 22nd. If it is not completed on time, the opening time will be postponed. For details regarding the update, please check the update announcement which will be posted later or the game login page after the maintenance."
+    "
+    Important Updates
+
+1. Summon the Selected Shikigami
+It's an event for you to summon the Shikigami you desire!
+Event time: After the update on April 22nd - April 26th 23:59 EST
+How to play:
+Each player can choose 7 Shikigami, whose chances of appearing will then be boosted during the event.
+Main (1 Shikigami)
+- The chance of this Shikigami appearing will increase to 5 times the normal rate. (Once the player summons this Shikigami once, the rate returns to normal.)
+Sub (6 Shikigami)
+- The chance of each of these Shikigami appearing will increase to 3 times the normal rate. (Once the player summons any Shikigami on this list twice, the rate returns to normal.)"
   end
 
 

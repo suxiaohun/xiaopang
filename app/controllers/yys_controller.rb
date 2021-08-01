@@ -8,17 +8,24 @@ class YysController < ApplicationController
 
   def maintenance
     "
-    Important Updates
+   Notes:
 
-1. Summon the Selected Shikigami
-It's an event for you to summon the Shikigami you desire!
-Event time: After the update on April 22nd - April 26th 23:59 EST
-How to play:
-Each player can choose 7 Shikigami, whose chances of appearing will then be boosted during the event.
-Main (1 Shikigami)
-- The chance of this Shikigami appearing will increase to 5 times the normal rate. (Once the player summons this Shikigami once, the rate returns to normal.)
-Sub (6 Shikigami)
-- The chance of each of these Shikigami appearing will increase to 3 times the normal rate. (Once the player summons any Shikigami on this list twice, the rate returns to normal.)"
+1. Sakura Coins can be used in the Tales Shop for Memory Shard, an item which can be used in the event. Piece together the Memory Shard on your scrapbooks to create a story and obtain rewards.
+
+2. After collecting all Memory Shards, players can redeem other items from the event shop, including Youko's new skin can not be obtained by any other means before 2021, so do not miss out!
+
+2. Spring Talisman Pass (April)
+
+Event time: After the update on April 8th - May 13th EST.
+
+Onmyoji can complete different missions to increase their Talisman level.
+
+As the Talisman level increases, Onmyoji can obtain various rewards.
+
+Purchase the Deluxe Talisman to unlock bonus rewards such as Shiranui's skin  Dancer
+
+Note: The Talisman Pass 20% Off Voucher obtained from the Talisman Pass the last month will be automatically used when purchasing the Deluxe Talisman. This reduces the price for the Classic Chest and Premium Chests to 40 S-jade and 92 S-jade respectively.
+"
   end
 
 

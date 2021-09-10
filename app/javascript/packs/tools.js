@@ -5,9 +5,7 @@ require("@rails/ujs").start();
 
 import * as test from '../custom/test'
 
-// import * as sojson from '../sojson/sojson'
 
-window.sojson = sojson.so
 
 test.haha();
 

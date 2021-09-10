@@ -1,5 +1,7 @@
 class ToolsController < ApplicationController
+  def markdown
 
+  end
   def mirror
     data = {
       "schemaVersion": 2,
@@ -178,6 +180,7 @@ class ToolsController < ApplicationController
     @comment.created_by = cookies[:nick_name]
     @comment.save
   end
+
 
   private
 

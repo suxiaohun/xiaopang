@@ -1,6 +1,8 @@
 class CommonController < ApplicationController
   include XiuxianInfo
 
+
+
   def test
 
     @c = %w(1607327664672)

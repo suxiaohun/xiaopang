@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   post 'sense_encode',to: 'tools#sense_encode'
   get 'test_timeout', to: 'common#test_timeout'
   get 'test', to: 'common#test'
+  get 'markdown', to: 'tools#markdown'
 
   get 'skills', to: 'common#skills'
   get 'items', to: 'common#items'

@@ -339,13 +339,6 @@ class YysController < ApplicationController
       up_count = 0
       summon_common(number, up_count)
     end
-
-    puts ".....1....."
-    puts summon.as_json
-    puts summon_mode.as_json
-    puts @result
-    puts ".....2....."
-
   end
 
   def summon_common(number, up_count)

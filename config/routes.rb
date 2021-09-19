@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   get 'skills', to: 'common#skills'
   get 'items', to: 'common#items'
   get 'groups', to: 'common#groups'
+  get 'rpc', to: 'tools#rpc'
+  get 'rpc2', to: 'tools#rpc2'
 
 
   match 'fates/auth', to: 'fates#auth', :via => [:get, :post]

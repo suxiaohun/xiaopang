@@ -182,6 +182,29 @@ class ToolsController < ApplicationController
   end
 
 
+  def rpc
+    # socket = Socket.new(Socket::AF_INET,Socket::SOCK_STREAM)
+    server = Socket.new(:AF_INET,:SOCK_STREAM)
+
+    addr = Socket.pack_sockaddr_in(4481,'0.0.0.0')
+    server.bind addr
+    server.listen(5)
+
+    Socket.accept_loop(server) do |connection|
+      puts connection
+
+      connection.close
+    end
+  end
+
+  def rpc2
+    Socket.tcp_server_loop(4481) do |conn|
+      puts conn
+      conn.close
+    end
+
+  end
+
   private
 
   def md5_body(data)

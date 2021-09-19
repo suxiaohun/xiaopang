@@ -6,3 +6,4 @@
 - ffmpeg video convert
 - add face recognize ruby or golang
 - c lib can not recognize in dir on mac
+- rpc call

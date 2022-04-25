@@ -16,7 +16,7 @@ gem 'chinese_pinyin', '~> 1.1'
 gem 'redis', '~> 4.4'
 gem 'redis-namespace', '~> 1.8', '>= 1.8.1'
 
-gem 'sidekiq', '~> 6.2', '>= 6.2.2'
+gem 'sidekiq', '~> 6.4'
 
 
 #gem 'execjs'

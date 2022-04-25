@@ -150,6 +150,8 @@ GEM
     nio4r (2.5.8)
     nokogiri (1.12.5-x86_64-darwin)
       racc (~> 1.4)
+    nokogiri (1.12.5-x86_64-linux)
+      racc (~> 1.4)
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -213,7 +215,7 @@ GEM
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
-    sidekiq (6.2.2)
+    sidekiq (6.4.0)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
@@ -249,6 +251,7 @@ GEM
 
 PLATFORMS
   x86_64-darwin-19
+  x86_64-linux
 
 DEPENDENCIES
   bcrypt_pbkdf (~> 1.1)
@@ -271,7 +274,7 @@ DEPENDENCIES
   redis-namespace (~> 1.8, >= 1.8.1)
   sass-rails (>= 6)
   selenium-webdriver (~> 3.142, >= 3.142.7)
-  sidekiq (~> 6.2, >= 6.2.2)
+  sidekiq (~> 6.4)
   turbolinks (~> 5)
   webdrivers (~> 4.6, >= 4.6.1)
   webpacker (~> 4.0)

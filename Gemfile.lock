@@ -122,10 +122,14 @@ GEM
     ffi (1.15.5)
     globalid (1.0.0)
       activesupport (>= 5.0)
-    google-protobuf (3.21.1-x86_64-darwin)
+    google-protobuf (3.21.7-x86_64-darwin)
+    google-protobuf (3.21.7-x86_64-linux)
     googleapis-common-protos-types (1.0.6)
       google-protobuf (~> 3.14)
     grpc (1.46.3-x86_64-darwin)
+      google-protobuf (~> 3.19)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.46.3-x86_64-linux)
       google-protobuf (~> 3.19)
       googleapis-common-protos-types (~> 1.0)
     hashie (5.0.0)
@@ -166,6 +170,8 @@ GEM
     mysql2 (0.5.3)
     nio4r (2.5.8)
     nokogiri (1.13.4-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.13.4-x86_64-linux)
       racc (~> 1.4)
     pry (0.14.1)
       coderay (~> 1.1)
@@ -265,6 +271,7 @@ GEM
 
 PLATFORMS
   x86_64-darwin-19
+  x86_64-linux
 
 DEPENDENCIES
   bcrypt_pbkdf (~> 1.1)

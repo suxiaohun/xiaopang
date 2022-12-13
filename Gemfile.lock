@@ -123,9 +123,13 @@ GEM
     globalid (1.0.0)
       activesupport (>= 5.0)
     google-protobuf (3.21.1-x86_64-darwin)
+    google-protobuf (3.21.1-x86_64-linux)
     googleapis-common-protos-types (1.0.6)
       google-protobuf (~> 3.14)
     grpc (1.46.3-x86_64-darwin)
+      google-protobuf (~> 3.19)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.46.3-x86_64-linux)
       google-protobuf (~> 3.19)
       googleapis-common-protos-types (~> 1.0)
     hashie (5.0.0)
@@ -150,7 +154,7 @@ GEM
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
-    loofah (2.16.0)
+    loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -165,7 +169,9 @@ GEM
     multipart-post (2.1.1)
     mysql2 (0.5.3)
     nio4r (2.5.8)
-    nokogiri (1.13.4-x86_64-darwin)
+    nokogiri (1.13.10-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.13.10-x86_64-linux)
       racc (~> 1.4)
     pry (0.14.1)
       coderay (~> 1.1)
@@ -173,7 +179,7 @@ GEM
     public_suffix (4.0.7)
     puma (5.6.4)
       nio4r (~> 2.0)
-    racc (1.6.0)
+    racc (1.6.1)
     rack (2.2.3)
     rack-proxy (0.7.2)
       rack
@@ -265,6 +271,7 @@ GEM
 
 PLATFORMS
   x86_64-darwin-19
+  x86_64-linux
 
 DEPENDENCIES
   bcrypt_pbkdf (~> 1.1)

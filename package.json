@@ -17,7 +17,7 @@
   "version": "v1.22.10",
   "devDependencies": {
     "expose-loader": "^0.7.5",
-    "webpack-cli": "^3.3.11",
+    "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^3.10.3"
   }
 }
